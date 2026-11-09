@@ -7,7 +7,8 @@ const LATER_IMAGES = [
   '/assets/images/arc-reactor-core.webp',
   '/assets/images/clients/world-map.webp',
   '/assets/images/clients/booth.avif',
-  '/assets/svg/footer-iron-man.svg',
+  '/assets/images/footer-backdrop.webp',
+  '/assets/svg/footer-hud.svg',
   ...Array.from({ length: 13 }, (_, index) =>
     `/assets/images/shows/${String(index + 1).padStart(2, '0')}.svg`,
   ),

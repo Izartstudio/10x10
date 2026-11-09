@@ -48,18 +48,21 @@
   background: linear-gradient(130deg, #8e1008a8, #260300 83%);
 }
 
-.corners::before {
+.corners::before,
+.corners::after {
   content: "";
   position: absolute;
-  inset: 0;
+  top: 0;
+  z-index: 1;
+  width: 34px;
+  height: 50px;
+  background: #e50400;
+  clip-path: polygon(0 0, 34px 0, 34px 1px, 18px 1px, 18px 3px, 3px 3px, 3px 21px, 1px 21px, 1px 50px, 0 50px);
   pointer-events: none;
-  background:
-    linear-gradient(#ed1d12, #ed1d12) top left / 1.1rem 2px,
-    linear-gradient(#ed1d12, transparent) top left / 2px 3rem,
-    linear-gradient(#ed1d12, #ed1d12) top right / 1.1rem 2px,
-    linear-gradient(#ed1d12, transparent) top right / 2px 3rem;
-  background-repeat: no-repeat;
 }
+
+.corners::before { left: 0; }
+.corners::after { right: 0; transform: scaleX(-1); }
 
 .number {
   margin: 0;
@@ -109,8 +112,17 @@
   position: absolute;
   inset: 0 0 auto;
   height: 9px;
-  background: #ef0b00;
-  clip-path: polygon(29% 0, 69% 0, 65% 100%, 33% 100%);
+  background: #e50400;
+  clip-path: polygon(29% 0, 70% 0, 66% 100%, 33% 100%);
+}
+
+.exhibitions::after {
+  content: "";
+  position: absolute;
+  inset: 0 .6rem auto;
+  height: 1px;
+  background: #e50400;
+  pointer-events: none;
 }
 
 .exhibitions p { margin-top: 1rem; }

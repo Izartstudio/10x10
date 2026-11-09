@@ -1,7 +1,7 @@
 // Geometry from the supplied Arc Reactor.svg, grouped by animation target.
 export function ArcReactor() {
   return (
-    <svg viewBox="0 0 996 405" aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 996 405" fill="none" aria-hidden="true" focusable="false">
       <defs>
         <pattern id="pattern0_4455_3203" patternContentUnits="objectBoundingBox" width="1" height="1">
           <use href="#image0_4455_3203" transform="scale(0.000918567 0.00162866)" />

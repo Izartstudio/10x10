@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useRef } from 'react'
 import { useLoopingRail } from '@/hooks/useLoopingRail'
 import { gsap, useGSAP } from '@/lib/animations/gsap'
+import { HudMicroText } from '@/components/layout/HudMicroText'
 import styles from './work.module.css'
 
 const PROJECTS = [1, 3, 4, 2, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -30,8 +31,8 @@ export function OurWork() {
   return (
     <section ref={root} className={styles.section} aria-labelledby="work-title">
       <div className={styles.diagnostics} aria-hidden="true">
-        <span>{'926.78.3301\n676.47.4447\n955.96.7414\n795.27.1701\n---------------\n532.44.9533\n962.79.1011'}</span>
-        <span>{'(ICVSM)-1011\nLDA--54685--L8\n---------------\nSTA-/A1+1\nA1-/3C\nA1-/3E\nA4--SC311\n---------------\n---------------'}</span>
+        <HudMicroText>{'926.78.3301\n676.47.4447\n955.96.7414\n795.27.1701\n---------------\n532.44.9533\n962.79.1011'}</HudMicroText>
+        <HudMicroText>{'(ICVSM)-1011\nLDA--54685--L8\n---------------\nSTA-/A1+1\nA1-/3C\nA1-/3E\nA4--SC311\n---------------\n---------------'}</HudMicroText>
       </div>
       <header className={styles.copy}>
         <h2 id="work-title" data-work-copy>Our Work</h2>

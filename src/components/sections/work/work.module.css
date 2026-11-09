@@ -18,6 +18,7 @@
   pointer-events: none;
 }
 
+.diagnostics span { pointer-events: auto; }
 .diagnostics span:last-child { text-align: right; }
 
 .copy {

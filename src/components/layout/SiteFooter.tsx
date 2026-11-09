@@ -13,7 +13,7 @@ export function SiteFooter() {
         </p>
       </div>
       <div className={styles.artwork} aria-hidden="true">
-        <Image src="/assets/svg/footer-iron-man.svg" alt="" width={1440} height={763} unoptimized />
+        <Image src="/assets/svg/footer-hud.svg" alt="" width={1440} height={763} unoptimized />
         <FooterHudText />
         <span className={styles.reactorGlow} />
       </div>

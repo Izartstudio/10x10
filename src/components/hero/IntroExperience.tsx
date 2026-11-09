@@ -41,7 +41,6 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
       window.clearTimeout(deadline)
       if (!showVideo) media.hidden = true
       content.dataset.heroEntering = ''
-      hud.dataset.exiting = ''
       fade = gsap.to(hud, {
         autoAlpha: 0,
         duration: reducedMotion ? 0 : 0.42,
@@ -89,7 +88,6 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
       media.removeEventListener('error', tryPlayback)
       fade?.kill()
       if (!exiting && starting) media.pause()
-      delete hud.dataset.exiting
       delete content.dataset.heroEntering
     }
   }, [reducedMotion, revealed])

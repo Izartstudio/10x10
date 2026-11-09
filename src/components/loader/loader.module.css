@@ -20,25 +20,9 @@
   inset: 0;
   display: grid;
   place-items: center;
-  /* Clip artwork without intercepting scroll gestures meant for the page. */
   overflow: clip;
   isolation: isolate;
   background: #030101;
-}
-
-.sequence[data-scroll-led] {
-  min-height: 400dvh;
-}
-
-.sequence[data-scroll-led] .loader {
-  position: sticky;
-  inset: 0 auto auto;
-  height: 100dvh;
-}
-
-.sequence[data-scroll-led] .loader[data-exiting] {
-  position: fixed;
-  inset: 0;
 }
 
 .backdrop,

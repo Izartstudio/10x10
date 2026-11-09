@@ -1,4 +1,5 @@
 .section {
+  --markets-red: #ef0b00;
   background: #000;
   color: #fff;
   padding: clamp(2.75rem, 5.14vw, 5rem) 3.47% 0;
@@ -21,13 +22,13 @@
   inset: 0 0 auto;
   width: 100%;
   height: clamp(3.5rem, 6.39vw, 5.75rem);
-  color: #ef0b00;
+  color: var(--markets-red);
 }
 
 .header h2 {
   position: relative;
   margin: 0;
-  color: #ef0b00;
+  color: var(--markets-red);
   font-size: clamp(1.85rem, 2.92vw, 2.85rem);
   font-weight: 400;
   line-height: 1.2;
@@ -46,8 +47,18 @@
   margin: clamp(1.5rem, 3.1vw, 2.75rem) auto 0;
   aspect-ratio: 16 / 9;
   overflow: clip;
-  background: #ebebeb url("/assets/videos/markets-globe-poster.jpg") center / 108% auto no-repeat;
-  filter: url("#markets-globe-tone");
+  background: radial-gradient(
+    ellipse 48% 58% at 50% 50%,
+    color-mix(in srgb, var(--markets-red) 12%, transparent),
+    transparent 78%
+  );
+}
+
+.globeMedia {
+  position: absolute;
+  inset: 0;
+  background: url("/assets/videos/markets-globe-poster.jpg") center / 108% auto no-repeat;
+  filter: url("#markets-globe-key");
 }
 
 .globe video {

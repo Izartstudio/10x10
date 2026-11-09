@@ -2,6 +2,7 @@
 
 import { useRef } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/animations/gsap'
+import { HudMicroText } from '@/components/layout/HudMicroText'
 import styles from './process.module.css'
 
 const STEPS = [
@@ -114,8 +115,8 @@ export function HowWeWork() {
             <path d="M0 20H441V1H470V36H410L392 20H372L386 36H149L126 20Z" fill="currentColor" />
             <path d="M142 4H411M0 20H442" stroke="currentColor" strokeWidth="2" />
           </svg>
-          <p>Active Status</p>
-          <pre>{'[ICVSM]-1011\nLDA--54685--L8\n----------------\nSTA-/A1+1\nA1-/3C\nA1-/3E\nA4--SC311'}</pre>
+          <HudMicroText as="p">Active Status</HudMicroText>
+          <HudMicroText as="pre">{'[ICVSM]-1011\nLDA--54685--L8\n----------------\nSTA-/A1+1\nA1-/3C\nA1-/3E\nA4--SC311'}</HudMicroText>
         </div>
 
         <ol className={styles.steps}>
@@ -126,7 +127,7 @@ export function HowWeWork() {
                 <path d="M5 205H249V213H61L55 219H14L5 212Z" fill="#ef0b00" />
               </svg>
               <div className={styles.stepCopy}>
-                <p className={styles.number}>{`// 0${index + 1}`}</p>
+                <HudMicroText as="p" className={styles.number}>{`// 0${index + 1}`}</HudMicroText>
                 <h3>{title}</h3>
                 <p>{description}</p>
               </div>
