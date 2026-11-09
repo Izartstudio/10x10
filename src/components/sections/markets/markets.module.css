@@ -47,18 +47,7 @@
   margin: clamp(1.5rem, 3.1vw, 2.75rem) auto 0;
   aspect-ratio: 16 / 9;
   overflow: clip;
-  background: radial-gradient(
-    ellipse 48% 58% at 50% 50%,
-    color-mix(in srgb, var(--markets-red) 12%, transparent),
-    transparent 78%
-  );
-}
-
-.globeMedia {
-  position: absolute;
-  inset: 0;
-  background: url("/assets/videos/markets-globe-poster.jpg") center / 108% auto no-repeat;
-  filter: url("#markets-globe-key");
+  background: #000 url("/assets/videos/markets-globe-dark-poster.jpg") center / 108% auto no-repeat;
 }
 
 .globe video {

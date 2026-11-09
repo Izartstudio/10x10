@@ -13,7 +13,7 @@ export function WhoWeAre() {
     media.add('(prefers-reduced-motion: no-preference)', () => {
       const opening = gsap.timeline({
         defaults: { ease: 'power2.out' },
-        scrollTrigger: { trigger: root.current, start: 'top 70%', once: true },
+        scrollTrigger: { trigger: '[data-reactor-stage]', start: 'top 68%', once: true },
       })
 
       opening
@@ -33,7 +33,7 @@ export function WhoWeAre() {
   return (
     <section ref={root} className={styles.section} aria-labelledby="who-we-are-title">
       <h2 id="who-we-are-title" className={styles.title}>Who We Are</h2>
-      <div className={styles.reactor}><ArcReactor /></div>
+      <div className={styles.reactor} data-reactor-stage><ArcReactor /></div>
       <p className={styles.copy}>
         10x10 Booths is a global exhibition partner. We design, build, and deliver exhibition environments for brands exhibiting across international markets. Built to perform, not just impress.
       </p>

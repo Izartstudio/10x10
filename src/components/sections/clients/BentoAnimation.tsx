@@ -4,8 +4,14 @@ import { useEffect, useRef, type ReactNode } from 'react'
 import type { AnimationItem } from 'lottie-web'
 import styles from './clients.module.css'
 
+const compositions = {
+  'World-Map-Bento': () => import('../../../../public/assets/animations/World-Map-Bento.json'),
+  'Line-Bento': () => import('../../../../public/assets/animations/Line-Bento.json'),
+  'Bento-Logo': () => import('../../../../public/assets/animations/Bento-Logo.json'),
+}
+
 export function BentoAnimation({ name, className, children, loop = false, stretch = false }: {
-  name: 'World-Map-Bento' | 'Line-Bento' | 'Bento-Logo'
+  name: keyof typeof compositions
   className: string
   children: ReactNode
   loop?: boolean
@@ -38,7 +44,10 @@ export function BentoAnimation({ name, className, children, loop = false, stretc
 
     async function load() {
       try {
-        const { default: lottie } = await import('lottie-web/build/player/lottie_svg')
+        const [{ default: lottie }, { default: data }] = await Promise.all([
+          import('lottie-web/build/player/lottie_svg'),
+          compositions[name](),
+        ])
         if (disposed || !player || !wrapper) return
         const rendererSettings = {
           preserveAspectRatio: stretch ? 'none' : 'xMidYMid meet',
@@ -48,23 +57,25 @@ export function BentoAnimation({ name, className, children, loop = false, stretc
         animation = lottie.loadAnimation({
           container: player,
           renderer: 'svg',
-          path: `/assets/animations/${name}.json`,
+          animationData: structuredClone(data),
           autoplay: false,
           loop,
           rendererSettings,
         })
-        animation.addEventListener('DOMLoaded', () => {
+        const showAnimation = () => {
+          if (disposed) return
           ready = true
           wrapper.dataset.lottieReady = ''
           sync()
-        })
+        }
+        animation.addEventListener('DOMLoaded', showAnimation)
+        if (animation.isLoaded) showAnimation()
         const useFallback = () => {
           ready = false
           delete wrapper.dataset.lottieReady
           animation?.destroy()
           animation = undefined
         }
-        animation.addEventListener('data_failed', useFallback)
         animation.addEventListener('error', useFallback)
       } catch {
         // Keep the static artwork when the player cannot load.

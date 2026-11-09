@@ -46,14 +46,6 @@ export function SameStandards() {
       <div className={styles.layout}>
         <header className={styles.header}>
           <svg className={styles.frame} viewBox="0 0 1340 92" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <defs>
-              <filter id="markets-globe-key" colorInterpolationFilters="sRGB">
-                <feColorMatrix
-                  type="matrix"
-                  values=".75 0 0 0 0  0 .75 0 0 0  0 0 .75 0 0  12 0 -12 1 -1.2"
-                />
-              </filter>
-            </defs>
             <path d="M0 91 94 1H388m564 0h294l94 90" fill="none" stroke="currentColor" strokeWidth="2" />
             <path d="M30 62 94 1h115l-7 7h-98L45 62Zm1280 0-64-61h-115l7 7h98l59 54Z" fill="currentColor" />
           </svg>
@@ -65,18 +57,16 @@ export function SameStandards() {
         </header>
 
         <div className={styles.globe} aria-hidden="true">
-          <div className={styles.globeMedia}>
-            <video
-              ref={video}
-              src="/assets/videos/markets-globe.mp4"
-              poster="/assets/videos/markets-globe-poster.jpg"
-              preload="none"
-              muted
-              loop
-              playsInline
-              onError={(event) => { event.currentTarget.hidden = true }}
-            />
-          </div>
+          <video
+            ref={video}
+            src="/assets/videos/markets-globe-dark.mp4"
+            poster="/assets/videos/markets-globe-dark-poster.jpg"
+            preload="none"
+            muted
+            loop
+            playsInline
+            onError={(event) => { event.currentTarget.hidden = true }}
+          />
         </div>
       </div>
     </section>

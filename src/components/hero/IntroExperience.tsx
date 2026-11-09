@@ -1,12 +1,29 @@
 'use client'
 
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react'
 import { IronManLoader } from '@/components/loader/IronManLoader'
-import { gsap } from '@/lib/animations/gsap'
+import { gsap, ScrollTrigger } from '@/lib/animations/gsap'
 import { preloadIntroAssets } from '@/lib/preloadIntroAssets'
 import { HeroSection } from './HeroSection'
 
 const MAX_MEDIA_WAIT_MS = 2200
+
+const subscribeToNavigation = () => () => {}
+const getServerNavigation = () => null
+
+function isReloadNavigation() {
+  if (process.env.NODE_ENV === 'development') {
+    const params = new URLSearchParams(window.location.search)
+    if (['loader', 'controls', 'motion'].some((name) => params.has(name))) return false
+  }
+
+  const [navigation] = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[]
+  return navigation?.type === 'reload'
+}
+
+function scrollPositionKey() {
+  return `10x10:scroll:${window.location.pathname}${window.location.search}`
+}
 
 export function IntroExperience({ artwork, backHref, children, footer }: {
   artwork: ReactNode
@@ -15,12 +32,57 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
   footer: ReactNode
 }) {
   const [reducedMotion, setLoaderComplete] = useState<boolean | null>(null)
-  const [revealed, setRevealed] = useState(false)
+  const [introComplete, setIntroComplete] = useState(false)
+  const isReload = useSyncExternalStore(subscribeToNavigation, isReloadNavigation, getServerNavigation)
+  const revealed = introComplete || isReload === true
   const main = useRef<HTMLElement>(null)
   const overlay = useRef<HTMLDivElement>(null)
   const video = useRef<HTMLVideoElement>(null)
 
-  useEffect(preloadIntroAssets, [])
+  useEffect(() => {
+    if (isReload === false) preloadIntroAssets()
+  }, [isReload])
+
+  useLayoutEffect(() => {
+    if (!revealed) return
+
+    const key = scrollPositionKey()
+    function savePosition() {
+      try {
+        sessionStorage.setItem(key, String(window.scrollY))
+      } catch {
+        // Browser privacy settings can disable session storage.
+      }
+    }
+
+    if (isReload) {
+      let position: string | null = null
+      try {
+        position = sessionStorage.getItem(key)
+      } catch {
+        // Leave restoration to the browser when storage is unavailable.
+      }
+      if (position !== null && Number.isFinite(Number(position))) {
+        ScrollTrigger.refresh()
+        window.scrollTo({ top: Math.max(0, Number(position)), behavior: 'instant' })
+        ScrollTrigger.update()
+      }
+    }
+
+    window.addEventListener('pagehide', savePosition)
+    return () => window.removeEventListener('pagehide', savePosition)
+  }, [isReload, revealed])
+
+  useEffect(() => {
+    if (!isReload || !video.current) return
+    const media = video.current
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      media.hidden = true
+      return
+    }
+
+    void media.play().catch(() => {})
+  }, [isReload])
 
   useEffect(() => {
     if (reducedMotion === null || revealed) return
@@ -47,7 +109,7 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
         ease: 'power1.out',
         onComplete: () => {
           window.scrollTo(0, 0)
-          setRevealed(true)
+          setIntroComplete(true)
         },
       })
     }
@@ -99,7 +161,8 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
         {revealed && children}
       </main>
       {revealed && footer}
-      {!revealed && <div ref={overlay}><IronManLoader onComplete={setLoaderComplete}>{artwork}</IronManLoader></div>}
+      {isReload === null && <div className="fixed inset-0 z-[2] bg-[#030101]" aria-hidden="true" />}
+      {isReload === false && !revealed && <div ref={overlay}><IronManLoader onComplete={setLoaderComplete}>{artwork}</IronManLoader></div>}
     </>
   )
 }
