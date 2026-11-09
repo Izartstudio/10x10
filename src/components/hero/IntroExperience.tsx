@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { IronManLoader } from '@/components/loader/IronManLoader'
 import { gsap } from '@/lib/animations/gsap'
+import { preloadIntroAssets } from '@/lib/preloadIntroAssets'
 import { HeroSection } from './HeroSection'
 
 const MAX_MEDIA_WAIT_MS = 2200
@@ -18,6 +19,8 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
   const main = useRef<HTMLElement>(null)
   const overlay = useRef<HTMLDivElement>(null)
   const video = useRef<HTMLVideoElement>(null)
+
+  useEffect(preloadIntroAssets, [])
 
   useEffect(() => {
     if (reducedMotion === null || revealed) return

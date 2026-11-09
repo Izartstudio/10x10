@@ -104,7 +104,7 @@ export function ExhibitionServices() {
                     <div className={styles.visual}>
                       <Image
                         className={styles.booth}
-                        src={`/assets/images/services/${service.image}.png`}
+                        src={`/assets/images/services/${service.image}.webp`}
                         width={service.imageWidth}
                         height={527}
                         alt={`${service.title} exhibition stand`}

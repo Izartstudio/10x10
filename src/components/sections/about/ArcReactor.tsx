@@ -10,7 +10,7 @@ export function ArcReactor() {
           <stop stopColor="#E50400" />
           <stop offset="1" stopColor="#E50400" stopOpacity="0" />
         </radialGradient>
-        <image id="image0_4455_3203" width="1089" height="614" preserveAspectRatio="none" href="/assets/images/arc-reactor-core.png" />
+        <image id="image0_4455_3203" width="1089" height="614" preserveAspectRatio="none" href="/assets/images/arc-reactor-core.webp" />
       </defs>
       <mask id="stroke0_4455_3203" fill="white">
         <path d="M638.51 59.1995C618.709 39.3985 595.01 23.9281 568.915 13.7693C542.819 3.61047 514.898 -1.01506 486.921 0.186011C458.944 1.38708 431.522 8.38855 406.393 20.7464C381.265 33.1043 358.978 50.5489 340.947 71.9741L413.952 133.414C423.471 122.104 435.236 112.895 448.502 106.371C461.768 99.8468 476.244 96.1507 491.013 95.5166C505.783 94.8826 520.523 97.3244 534.299 102.687C548.075 108.05 560.586 116.217 571.039 126.671L638.51 59.1995Z" />

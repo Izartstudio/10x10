@@ -47,7 +47,7 @@ export function WhyClientsComeBack() {
         </article>
 
         <article className={`${styles.card} ${styles.exhibitions}`}>
-          <Image className={styles.map} data-client-map src="/assets/images/clients/world-map.png" alt="" width={487} height={325} unoptimized />
+          <Image className={styles.map} data-client-map src="/assets/images/clients/world-map.webp" alt="" width={487} height={325} unoptimized />
           <h3 className={styles.number}>200+</h3>
           <p>Exhibitions across US,<br />Europe, Africa, Asia,<br />UAE &amp; Saudi Arabia</p>
         </article>
