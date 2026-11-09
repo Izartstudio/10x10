@@ -1,0 +1,215 @@
+.services {
+  background: #000;
+  color: #fff;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  --accent: #f00c03;
+}
+
+.intro {
+  position: relative;
+  padding: clamp(3rem, 6vw, 5.75rem) clamp(1.25rem, 5.2vw, 5rem) 3rem;
+}
+
+.intro h2 {
+  margin: 0 0 1.25rem;
+  color: var(--accent);
+  font-size: clamp(1.65rem, 2.85vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.18;
+}
+
+.introLead {
+  margin-bottom: 1.25rem;
+  font-size: clamp(1rem, 1.65vw, 1.5rem);
+}
+
+.introCopy {
+  max-width: 42rem;
+  margin-bottom: 1.5rem;
+  font-size: clamp(.875rem, 1.2vw, 1rem);
+  line-height: 1.6;
+}
+
+.meter {
+  position: absolute;
+  top: clamp(3rem, 6vw, 5.75rem);
+  right: clamp(1.25rem, 5.2vw, 5rem);
+  width: min(15vw, 12.5rem);
+  color: var(--accent);
+}
+
+.rail { display: grid; }
+.slide { min-width: 0; }
+
+.panel {
+  width: 100%;
+  padding: clamp(1rem, 3.47vw, 3.125rem);
+  background: linear-gradient(#000 35%, #500904);
+}
+
+.frame {
+  display: block;
+  width: 100%;
+  margin-bottom: clamp(.75rem, 1.5vw, 1.375rem);
+}
+
+.panelBody {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: clip;
+}
+
+.panelBody::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("/assets/images/services/background.png") center / cover no-repeat;
+  mask-image:
+    linear-gradient(to bottom, transparent, #000 19%, #000 69%, transparent),
+    linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+  mask-composite: intersect;
+}
+
+.copy {
+  position: relative;
+  z-index: 1;
+  padding: clamp(1rem, 3.47vw, 3.125rem) clamp(1rem, 3.47vw, 3.125rem) 0;
+}
+
+.copy h3 {
+  margin: 0 0 clamp(.9rem, 2vw, 1.7rem);
+  color: var(--accent);
+  font-size: clamp(1.3rem, 2.3vw, 2.125rem);
+  font-weight: 400;
+  line-height: 1.18;
+}
+
+.lead {
+  margin: 0 0 .9rem;
+  font-size: clamp(1rem, 1.67vw, 1.5rem);
+  line-height: 1.25;
+}
+
+.description {
+  max-width: 38rem;
+  margin: 0;
+  font-size: clamp(.8rem, .97vw, .875rem);
+  line-height: 1.55;
+}
+
+.visual {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: clamp(.75rem, 3vw, 3rem) 6%;
+}
+
+.booth {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+
+.track[data-horizontal] { height: 500svh; }
+
+.track[data-horizontal] .viewport {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: clip;
+}
+
+.track[data-horizontal] .rail {
+  display: flex;
+  height: 100%;
+}
+
+.track[data-horizontal] .slide {
+  display: grid;
+  flex: 0 0 100%;
+  place-items: center;
+  background: linear-gradient(#000 35%, #500904);
+}
+
+@media (min-width: 992px) {
+  .panel {
+    --design-x: calc(100cqw / 1440);
+    --design-y: calc(100cqh / 1022);
+    --design-pixel: min(var(--design-x), var(--design-y));
+    position: relative;
+    container-type: size;
+    width: 100%;
+    aspect-ratio: 1440 / 1022;
+    margin-inline: auto;
+    padding: 0;
+  }
+
+  .track[data-horizontal] .panel {
+    height: 100svh;
+    aspect-ratio: auto;
+  }
+
+  .frame {
+    position: absolute;
+    top: calc(48 * var(--design-y));
+    left: calc(50 * var(--design-x));
+    width: calc(1340 * var(--design-x));
+    height: calc(54 * var(--design-y));
+    margin: 0;
+  }
+
+  .panelBody {
+    position: absolute;
+    top: calc(122 * var(--design-y));
+    left: calc(50 * var(--design-x));
+    width: calc(1340 * var(--design-x));
+    height: calc(850 * var(--design-y));
+  }
+
+  .panelBody::before {
+    background-size: 100% 100%;
+  }
+
+  .copy {
+    padding: calc(56 * var(--design-y)) calc(50 * var(--design-x)) 0;
+  }
+
+  .copy h3 {
+    margin-bottom: calc(28 * var(--design-pixel));
+    font-size: calc(32 * var(--design-pixel));
+  }
+
+  .lead {
+    margin-bottom: calc(15 * var(--design-pixel));
+    font-size: calc(23 * var(--design-pixel));
+  }
+
+  .description {
+    max-width: calc(530 * var(--design-pixel));
+    font-size: calc(13 * var(--design-pixel));
+  }
+
+  .visual {
+    min-height: 0;
+    grid-template-rows: minmax(0, 1fr);
+    padding: calc(24 * var(--design-y)) 0 calc(58 * var(--design-y));
+  }
+
+  .booth {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: calc(527 * var(--design-pixel));
+    object-fit: contain;
+    align-self: start;
+  }
+}
+
+@media (max-width: 767px) {
+  .meter { display: none; }
+  .visual { padding-inline: 3%; }
+}

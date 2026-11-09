@@ -1,0 +1,218 @@
+.section {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding: clamp(3rem, 5.2vw, 5.5rem) 5.2% clamp(2rem, 3vw, 4rem);
+  color: #fff;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+.helmet {
+  position: absolute;
+  z-index: -1;
+  top: 1.5%;
+  right: 5.2%;
+  width: min(24%, 24rem);
+  opacity: .24;
+}
+
+.intro {
+  min-height: clamp(11rem, 18.05vw, 17rem);
+}
+
+.intro h2 {
+  margin: 0 0 1.4rem;
+  font-size: clamp(1.7rem, 2.35vw, 2.25rem);
+  font-weight: 400;
+}
+
+.intro p {
+  max-width: 34rem;
+  font-size: clamp(.875rem, 1.05vw, 1rem);
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 420fr) minmax(0, 530fr) minmax(0, 310fr);
+  grid-template-rows: minmax(15rem, 18.3vw) minmax(19rem, 23.8vw);
+  grid-template-areas: "years exhibitions booth" "pavilions team booth";
+  gap: clamp(.65rem, 1.04vw, 1rem);
+}
+
+.card {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding: clamp(1rem, 2vw, 2rem);
+  background: linear-gradient(130deg, #8e1008a8, #260300 83%);
+}
+
+.corners::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(#ed1d12, #ed1d12) top left / 1.1rem 2px,
+    linear-gradient(#ed1d12, transparent) top left / 2px 3rem,
+    linear-gradient(#ed1d12, #ed1d12) top right / 1.1rem 2px,
+    linear-gradient(#ed1d12, transparent) top right / 2px 3rem;
+  background-repeat: no-repeat;
+}
+
+.number {
+  margin: 0;
+  font-size: clamp(2.8rem, 4vw, 4rem);
+  font-weight: 400;
+  line-height: 1.14;
+}
+
+.years {
+  grid-area: years;
+  padding: clamp(1.4rem, 3.33vw, 3.2rem);
+}
+
+.years .number { font-size: clamp(2.25rem, 3.4vw, 3.5rem); }
+
+.years p, .exhibitions p, .booth p {
+  font-size: clamp(.85rem, 1.05vw, 1rem);
+  line-height: 1.55;
+}
+
+.bars {
+  position: absolute;
+  inset: auto 10% 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bars span {
+  width: clamp(3px, .42vw, 6px);
+  height: clamp(1.45rem, 2.71vw, 2.5rem);
+  border-radius: 1rem;
+  background: #ff431b;
+  transform-origin: bottom;
+}
+
+.bars span:nth-child(-n + 5) { background: #ffd0c5; }
+.bars span:first-child { background: #fff; }
+
+.exhibitions {
+  grid-area: exhibitions;
+  align-content: center;
+}
+
+.exhibitions::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 9px;
+  background: #ef0b00;
+  clip-path: polygon(29% 0, 69% 0, 65% 100%, 33% 100%);
+}
+
+.exhibitions p { margin-top: 1rem; }
+
+.map {
+  position: absolute;
+  z-index: -1;
+  right: -17%;
+  bottom: -17%;
+  width: 76%;
+  height: auto;
+  opacity: .6;
+  filter: sepia(1) saturate(6) hue-rotate(335deg);
+  mix-blend-mode: screen;
+}
+
+.booth {
+  grid-area: booth;
+  background: linear-gradient(155deg, #500701, #270300 50%, #030303 89%);
+}
+
+.booth h3, .team h3 {
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  line-height: 1.21;
+  font-weight: 400;
+}
+
+.booth p { margin-top: 1rem; }
+
+.boothImage {
+  position: absolute;
+  z-index: -1;
+  right: -32%;
+  bottom: 10%;
+  width: 128%;
+  max-width: none;
+  height: auto;
+}
+
+.pavilions {
+  grid-area: pavilions;
+  padding: clamp(1.4rem, 3.3vw, 3.1rem) clamp(1.2rem, 2.4vw, 2.3rem);
+}
+
+.pavilions h3 { margin-bottom: .7rem; font-size: clamp(1rem, 1.38vw, 1.4rem); }
+
+.chart {
+  position: absolute;
+  z-index: -1;
+  inset: auto 0 0;
+  width: 100%;
+  height: 62%;
+}
+
+.team {
+  grid-area: team;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(1.5rem, 2.9vw, 3rem) clamp(1.4rem, 3.05vw, 3rem);
+  background: transparent;
+}
+
+.teamFrame { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; }
+.team p { font-size: clamp(.9rem, 1.2vw, 1.15rem); }
+
+.orbit {
+  position: absolute;
+  z-index: -1;
+  top: 12%;
+  right: 7%;
+  width: min(46%, 16rem);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  color: #bf320b;
+}
+
+.orbit svg { position: absolute; inset: 0; fill: none; stroke: currentColor; stroke-width: .6; }
+.orbit .node { fill: currentColor; stroke: none; }
+.orbit span {
+  width: 35%;
+  aspect-ratio: 76 / 88;
+  background: #e63807;
+  mask: url("/assets/svg/10x10-cube.svg") center / contain no-repeat;
+}
+
+@media (max-width: 850px) {
+  .intro { min-height: 0; margin-bottom: 3rem; }
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    grid-template-areas: "years exhibitions" "pavilions team" "booth booth";
+  }
+  .card { min-height: 14rem; }
+  .booth { min-height: 20rem; }
+  .boothImage { right: -5%; bottom: 0; width: min(65%, 25rem); }
+}
+
+@media (max-width: 520px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "years" "exhibitions" "booth" "pavilions" "team";
+  }
+}

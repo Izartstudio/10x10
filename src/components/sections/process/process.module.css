@@ -1,0 +1,147 @@
+.section {
+  background: #080606;
+  color: white;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+.stage {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  min-height: 100svh;
+  padding: clamp(2rem, 5.2vw, 4.6875rem);
+}
+
+.scenery {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background: #252525 url("/assets/videos/booth-assembly-poster.jpg") center / cover no-repeat;
+}
+
+.stage::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(to bottom, #590a05, #120302 16%, transparent 45%);
+  pointer-events: none;
+}
+
+.film {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.section[data-motion] .film:not([hidden]) { display: block; }
+
+.heading p {
+  font-size: clamp(.82rem, 1.39vw, 1.25rem);
+  text-transform: uppercase;
+}
+
+.heading h2 {
+  margin-top: .9rem;
+  color: #ef0b00;
+  font-size: clamp(2rem, 2.92vw, 2.625rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.status {
+  position: absolute;
+  top: clamp(2rem, 5.07vw, 4.5625rem);
+  right: clamp(2rem, 5.14vw, 4.625rem);
+  width: min(32.64vw, 29.375rem);
+  color: #ef0b00;
+  text-align: right;
+}
+
+.status svg { display: block; width: 100%; }
+.status p {
+  margin-top: .75rem;
+  font: clamp(.75rem, 1.39vw, 1.25rem) / 1.2 Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+.status p::before {
+  content: "";
+  display: inline-block;
+  width: 23%;
+  margin-right: .4em;
+  border-top: 1px dashed;
+  vertical-align: middle;
+}
+
+.status pre {
+  margin-top: 1rem;
+  color: #a39b98;
+  font: .75rem / 1.25 "Bai Jamjuree", sans-serif;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 20.125rem));
+  gap: 1rem;
+  margin-top: clamp(3rem, 9.4vw, 8.5rem);
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 13.75rem;
+  isolation: isolate;
+}
+
+.card {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.stepCopy { padding: 1.75rem clamp(1.5rem, 3.125vw, 2.8125rem); }
+.number { color: #ff340e; font-size: .8125rem; }
+.stepCopy h3 {
+  margin: .45rem 0 .35rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.stepCopy p:last-child { font-size: .875rem; line-height: 1.5; }
+
+.section[data-motion] { height: 500svh; }
+.section[data-motion] .stage { position: sticky; top: 0; height: 100svh; }
+.section[data-motion] .steps {
+  position: absolute;
+  top: 34%;
+  left: clamp(2rem, 5.14vw, 4.625rem);
+  display: block;
+  width: min(31vw, 20.125rem);
+  margin: 0;
+}
+
+.section[data-motion] .step {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  clip-path: inset(50%);
+}
+
+.section[data-step="0"] [data-step-card="0"],
+.section[data-step="1"] [data-step-card="1"],
+.section[data-step="2"] [data-step-card="2"],
+.section[data-step="3"] [data-step-card="3"] {
+  clip-path: none;
+}
+
+@media (max-width: 767px) {
+  .status { display: none; }
+  .steps { grid-template-columns: minmax(0, 20.125rem); }
+}

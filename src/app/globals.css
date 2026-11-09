@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+html:has([data-loader-overlay]) {
+  overscroll-behavior-y: none;
+}

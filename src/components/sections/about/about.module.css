@@ -1,0 +1,55 @@
+.companyBackdrop {
+  background-color: #030303;
+  background-image:
+    linear-gradient(231deg, #030303 34%, #e50400 72%),
+    linear-gradient(307deg, #030303 37%, #e50400 76%);
+  background-blend-mode: darken, normal;
+}
+
+@media (max-width: 767px) {
+  .companyBackdrop {
+    background-image: radial-gradient(ellipse 100% 65% at 0 45%, #e50400, #790900 48%, transparent);
+    background-blend-mode: normal;
+  }
+}
+
+.section {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  min-height: 100svh;
+  padding: clamp(3rem, 5.2vw, 4.6875rem) 5% clamp(2rem, 3.9vw, 3.5rem);
+  overflow: clip;
+  color: #fff;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  background: linear-gradient(to bottom, #ed0800 48%, #340906 72%, transparent 88%);
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(2.4rem, 13.9vw, 12.5rem);
+  font-weight: 700;
+  letter-spacing: -.05em;
+  line-height: 1.03;
+}
+
+.reactor {
+  width: min(100%, 62.25rem);
+  margin-top: clamp(2rem, 3.75vw, 3.375rem);
+}
+
+.reactor svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.copy {
+  max-width: 68rem;
+  margin-top: clamp(1.5rem, 2.8vw, 2.5rem);
+  font-size: clamp(1rem, 1.65vw, 1.5rem);
+  line-height: 1.5;
+}

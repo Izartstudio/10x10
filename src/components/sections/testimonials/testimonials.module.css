@@ -1,0 +1,116 @@
+.section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  min-height: 56.6vw;
+  background: #000;
+  color: #fff;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+.helmets {
+  display: block;
+  width: 100%;
+  height: auto;
+  mask-image: linear-gradient(90deg, #000 78%, transparent);
+}
+
+.helmet { opacity: .18; }
+.helmet:nth-of-type(5n + 1) { opacity: .4; }
+
+.content {
+  width: min(100%, 42rem);
+  padding: clamp(2rem, 4vw, 3.75rem) clamp(1.25rem, 5.28vw, 4.75rem) clamp(2rem, 4vw, 3.75rem) 0;
+}
+
+.content h2 {
+  margin: 0 0 clamp(1.2rem, 2.5vw, 2.25rem);
+  font-size: clamp(1.8rem, 2.78vw, 2.6rem);
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+.panel {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: clamp(21rem, 31vw, 28rem);
+  margin: 0;
+  padding: clamp(2rem, 5vw, 4.5rem) clamp(1.6rem, 4.58vw, 4.125rem);
+}
+
+.frame {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: #230403;
+  stroke: #850e06;
+  stroke-width: 3;
+}
+
+.quote {
+  margin: 0;
+  color: #e3dada;
+  font-size: clamp(1rem, 1.39vw, 1.25rem);
+  line-height: 1.6;
+}
+
+.attribution {
+  display: grid;
+  gap: .7rem;
+  font-size: clamp(1.05rem, 1.53vw, 1.4rem);
+  font-weight: 600;
+}
+
+.attribution span:last-child {
+  color: #ff2c1d;
+  font-size: .875rem;
+  text-transform: uppercase;
+}
+
+.controls {
+  display: flex;
+  gap: .9rem;
+  margin-top: clamp(1.25rem, 2.3vw, 2.1rem);
+}
+
+.controls button {
+  display: grid;
+  place-items: center;
+  width: clamp(2.6rem, 3.82vw, 3.44rem);
+  aspect-ratio: 1;
+  background: #7b0a04;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.controls button:hover { background: #a21209; }
+.controls button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .helmet {
+    animation: helmet-charge var(--helmet-duration) ease-in-out var(--helmet-delay) infinite both paused;
+  }
+  .visible .helmet { animation-play-state: running; }
+  .quote, .attribution { animation: testimonial-enter .28s ease-out both; }
+}
+
+@keyframes helmet-charge {
+  0%, 32%, 100% { opacity: .18; }
+  14% { opacity: 1; }
+}
+
+@keyframes testimonial-enter {
+  from { opacity: 0; transform: translateY(.35rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 767px) {
+  .section { grid-template-columns: minmax(0, 1fr); }
+  .helmets { height: clamp(9rem, 32vw, 14rem); }
+  .content { width: 100%; padding-inline: 5%; }
+}

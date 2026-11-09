@@ -1,0 +1,138 @@
+.section {
+  position: relative;
+  min-height: 815px;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  padding: 160px 0 120px;
+  background: radial-gradient(ellipse 475px 340px at 50% 60%, #650600, #210200 58%, #000 100%);
+  color: #fff;
+}
+
+.diagnostics {
+  position: absolute;
+  inset: 50px clamp(20px, 3.47vw, 50px) auto;
+  display: flex;
+  justify-content: space-between;
+  color: #ed0a00;
+  font: 9px/11px "Bai Jamjuree", sans-serif;
+  white-space: pre;
+  pointer-events: none;
+}
+
+.diagnostics span:last-child { text-align: right; }
+
+.copy {
+  padding-inline: 20px;
+  text-align: center;
+}
+
+.copy h2 {
+  color: #ef0a00;
+  font-size: clamp(32px, 3vw, 42px);
+  line-height: 1.2;
+}
+
+.copy p {
+  margin-top: 11px;
+  font-size: clamp(15px, 1.25vw, 18px);
+}
+
+.carousel {
+  --card: clamp(210px, 26vw, 330px);
+  --gap: clamp(16px, 2.43vw, 35px);
+  --gutter: clamp(20px, 3.47vw, 50px);
+  position: relative;
+  max-width: 1440px;
+  margin: 76px auto 0;
+  padding-inline: var(--gutter);
+}
+
+.frame {
+  position: absolute;
+  inset: -31px 9px auto;
+  display: flex;
+  justify-content: space-between;
+  color: #ef0a00;
+  pointer-events: none;
+}
+
+.frame svg { width: min(189px, 25vw); }
+.frame svg:last-child { transform: scaleX(-1); }
+
+.viewport {
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+  cursor: grab;
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+
+.viewport:active { cursor: grabbing; }
+
+.rail {
+  position: relative;
+  left: calc(50% - var(--card) * 2.5 - var(--gap) * 2);
+  display: flex;
+  width: max-content;
+}
+
+.group {
+  display: flex;
+  flex: none;
+  gap: var(--gap);
+  padding-inline-end: var(--gap);
+  list-style: none;
+}
+
+.card {
+  position: relative;
+  width: var(--card);
+  aspect-ratio: 1;
+  border: 1px solid rgb(255 255 255 / 25%);
+}
+
+.card img {
+  box-sizing: border-box;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.arrow, .pause {
+  position: absolute;
+  z-index: 1;
+  border: 0;
+  color: #fff;
+  background: #780800;
+  cursor: pointer;
+}
+
+.arrow {
+  top: 50%;
+  left: var(--gutter);
+  width: 30px;
+  height: 30px;
+  transform: translateY(-50%);
+}
+
+.viewport + .arrow {
+  right: var(--gutter);
+  left: auto;
+}
+
+.arrow:hover, .pause:hover { background: #a60c00; }
+.arrow:focus-visible, .pause:focus-visible { outline: 2px solid white; outline-offset: 4px; }
+
+.pause {
+  top: calc(100% + 12px);
+  left: var(--gutter);
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.pause:not(:focus-visible):not([aria-pressed='true']) {
+  clip-path: inset(50%);
+}
+
+@media (max-width: 767px) {
+  .section { min-height: auto; padding: 135px 0 100px; }
+  .diagnostics { top: 28px; }
+  .carousel { margin-top: 60px; }
+}
