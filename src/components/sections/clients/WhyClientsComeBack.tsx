@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useRef } from 'react'
 import { gsap, useGSAP } from '@/lib/animations/gsap'
 import { HelmetArtwork } from '@/components/loader/HelmetArtwork'
+import { BentoAnimation } from './BentoAnimation'
 import styles from './clients.module.css'
 
 export function WhyClientsComeBack() {
@@ -17,9 +18,6 @@ export function WhyClientsComeBack() {
         scrollTrigger: { trigger: '[data-client-grid]', start: 'top 86%', once: true },
       })
         .from('[data-client-bar]', { scaleY: 0, duration: 0.28, stagger: 0.035 }, 0)
-        .from('[data-client-map]', { opacity: 0, duration: 0.75 }, 0.1)
-        .from('[data-client-chart]', { clipPath: 'inset(0 100% 0 0)', duration: 0.85 }, 0.15)
-        .from('[data-client-orbit]', { scale: 0.8, opacity: 0, duration: 0.6 }, 0.25)
     })
 
     return () => media.revert()
@@ -47,7 +45,9 @@ export function WhyClientsComeBack() {
         </article>
 
         <article className={`${styles.card} ${styles.exhibitions}`}>
-          <Image className={styles.map} data-client-map src="/assets/images/clients/world-map.webp" alt="" width={487} height={325} unoptimized />
+          <BentoAnimation className={styles.map} name="World-Map-Bento" loop>
+            <Image className={styles.mapFallback} src="/assets/images/clients/world-map.webp" alt="" width={487} height={325} unoptimized />
+          </BentoAnimation>
           <h3 className={styles.number}>200+</h3>
           <p>Exhibitions across US,<br />Europe, Africa, Asia,<br />UAE &amp; Saudi Arabia</p>
         </article>
@@ -61,16 +61,18 @@ export function WhyClientsComeBack() {
         <article className={`${styles.card} ${styles.pavilions} ${styles.corners}`}>
           <h3>US Country Pavilions Managed</h3>
           <p className={styles.number}>75+</p>
-          <svg className={styles.chart} data-client-chart viewBox="0 0 420 214" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <defs>
-              <linearGradient id="clients-growth" x2="0" y2="1">
-                <stop stopColor="#fff5f1" />
-                <stop offset=".42" stopColor="#ff2c00" />
-                <stop offset="1" stopColor="#9e1600" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <path d="M0 188 56 162 81 176 198 123 272 103 312 55 374 34 420 0V214H0Z" fill="url(#clients-growth)" />
-          </svg>
+          <BentoAnimation className={styles.chart} name="Line-Bento" stretch>
+            <svg viewBox="0 0 420 214" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+              <defs>
+                <linearGradient id="clients-growth" x2="0" y2="1">
+                  <stop stopColor="#fff5f1" />
+                  <stop offset=".42" stopColor="#ff2c00" />
+                  <stop offset="1" stopColor="#9e1600" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <path d="M0 188 56 162 81 176 198 123 272 103 312 55 374 34 420 0V214H0Z" fill="url(#clients-growth)" />
+            </svg>
+          </BentoAnimation>
         </article>
 
         <article className={`${styles.card} ${styles.team}`}>
@@ -78,7 +80,7 @@ export function WhyClientsComeBack() {
             <path d="M2 15 31 2H138L146 7H183L205 15H329L352 7H376L385 2H498L528 12V72L508 85V245L521 257V330L509 341H438L425 331H101L92 341H21L8 331V258L22 248V85L2 72Z" fill="#450800" fillOpacity=".42" stroke="#930e07" strokeWidth="3" />
           </svg>
           <h3>One Team Across<br />All Markets</h3>
-          <div className={styles.orbit} data-client-orbit aria-hidden="true">
+          <BentoAnimation className={styles.orbit} name="Bento-Logo" loop>
             <svg viewBox="0 0 240 240" focusable="false">
               <circle cx="120" cy="120" r="116" opacity=".2" />
               <circle cx="120" cy="120" r="91" opacity=".42" />
@@ -87,8 +89,8 @@ export function WhyClientsComeBack() {
               <circle className={styles.node} cx="107" cy="29" r="3" />
               <circle className={styles.node} cx="137" cy="185" r="3" />
             </svg>
-            <span />
-          </div>
+            <span className={styles.orbitMark} />
+          </BentoAnimation>
           <p>No Vendor Coordination Chaos</p>
         </article>
       </div>

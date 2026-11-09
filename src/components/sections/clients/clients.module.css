@@ -121,6 +121,11 @@
   right: -17%;
   bottom: -17%;
   width: 76%;
+  aspect-ratio: 487 / 325;
+}
+
+.mapFallback {
+  width: 100%;
   height: auto;
   opacity: .6;
   filter: sepia(1) saturate(6) hue-rotate(335deg);
@@ -189,13 +194,30 @@
   color: #bf320b;
 }
 
-.orbit svg { position: absolute; inset: 0; fill: none; stroke: currentColor; stroke-width: .6; }
+.orbit .bentoFallback svg { position: absolute; inset: 0; fill: none; stroke: currentColor; stroke-width: .6; }
 .orbit .node { fill: currentColor; stroke: none; }
-.orbit span {
+.orbitMark {
   width: 35%;
   aspect-ratio: 76 / 88;
   background: #e63807;
   mask: url("/assets/svg/10x10-cube.svg") center / contain no-repeat;
+}
+
+.bentoFallback, .bentoPlayer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.chart .bentoFallback svg { width: 100%; height: 100%; }
+
+.bentoPlayer { visibility: hidden; }
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-lottie-ready] > .bentoFallback { visibility: hidden; }
+  [data-lottie-ready] > .bentoPlayer { visibility: visible; }
 }
 
 @media (max-width: 850px) {
