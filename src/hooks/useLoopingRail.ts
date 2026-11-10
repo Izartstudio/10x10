@@ -56,8 +56,7 @@ export function useLoopingRail() {
     }
 
     const tick = (_time: number, delta: number) => {
-      if (!visible || paused.current || reduced.matches || dragging ||
-          controls.matches(':hover, :focus-within') || gsap.isTweening(playhead)) return
+      if (!visible || paused.current || reduced.matches || dragging || gsap.isTweening(playhead)) return
       playhead.x -= Math.min(delta, 32) * 0.048
       render()
     }
@@ -80,6 +79,8 @@ export function useLoopingRail() {
 
     windowEl.addEventListener('pointerdown', startDrag)
     windowEl.addEventListener('pointermove', drag)
+    windowEl.addEventListener('pointerup', stopDrag)
+    windowEl.addEventListener('pointercancel', stopDrag)
     windowEl.addEventListener('lostpointercapture', stopDrag)
 
     return () => {
@@ -89,6 +90,8 @@ export function useLoopingRail() {
       measure.disconnect()
       windowEl.removeEventListener('pointerdown', startDrag)
       windowEl.removeEventListener('pointermove', drag)
+      windowEl.removeEventListener('pointerup', stopDrag)
+      windowEl.removeEventListener('pointercancel', stopDrag)
       windowEl.removeEventListener('lostpointercapture', stopDrag)
       move.current = null
       track.style.removeProperty('transform')

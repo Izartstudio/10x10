@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import type { RefObject } from 'react'
+import { useEffect, useState, type RefObject } from 'react'
 import styles from './hero.module.css'
 
 export function HeroSection({ videoRef, revealed, backHref }: {
@@ -7,6 +7,38 @@ export function HeroSection({ videoRef, revealed, backHref }: {
   revealed: boolean
   backHref: string
 }) {
+  const [needsPlay, setNeedsPlay] = useState(false)
+
+  useEffect(() => {
+    const media = videoRef.current
+    if (!revealed || !media) return
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let active = true
+
+    function sync() {
+      if (!media) return
+      if (motion.matches) {
+        media.pause()
+        setNeedsPlay(false)
+      } else {
+        media.muted = true
+        void media.play().catch((error: unknown) => {
+          if (active && !motion.matches && error instanceof DOMException && error.name === 'NotAllowedError') {
+            setNeedsPlay(true)
+          }
+        })
+      }
+    }
+
+    sync()
+    motion.addEventListener('change', sync)
+    return () => {
+      active = false
+      motion.removeEventListener('change', sync)
+      media.pause()
+    }
+  }, [revealed, videoRef])
+
   return (
     <section className={styles.hero} data-revealed={revealed} inert={!revealed}>
       <div className={styles.videoViewport} aria-hidden="true">
@@ -14,11 +46,13 @@ export function HeroSection({ videoRef, revealed, backHref }: {
           ref={videoRef}
           className={styles.video}
           src="/assets/videos/hero-intro.mp4"
+          poster="/assets/videos/hero-intro-poster.webp"
           preload="auto"
           muted
           loop
           playsInline
-          onError={(event) => { event.currentTarget.hidden = true }}
+          onPlaying={() => setNeedsPlay(false)}
+          onError={() => setNeedsPlay(false)}
         />
       </div>
 
@@ -26,6 +60,16 @@ export function HeroSection({ videoRef, revealed, backHref }: {
         <span>Exhibition Experiences</span>{' '}
         <span>Designed To Perform</span>
       </h1>
+
+      {needsPlay && (
+        <button
+          type="button"
+          className={styles.playVideo}
+          onClick={() => { void videoRef.current?.play().catch(() => {}) }}
+        >
+          Play video
+        </button>
+      )}
 
       <header className={styles.header}>
         <Image

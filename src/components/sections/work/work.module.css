@@ -132,8 +132,15 @@
   clip-path: inset(50%);
 }
 
-@media (max-width: 767px) {
-  .section { min-height: auto; padding: 135px 0 100px; }
-  .diagnostics { top: 28px; }
-  .carousel { margin-top: 60px; }
+@media (max-width: 1024px) {
+  .section { min-height: auto; padding-block: var(--section-edge); }
+  .diagnostics {
+    position: static;
+    margin: 0 var(--section-gutter) var(--section-gap);
+  }
+  .carousel {
+    --gutter: var(--section-gutter);
+    margin-top: calc(var(--section-gap) + 1.25rem);
+  }
+  .frame { top: -1.25rem; }
 }

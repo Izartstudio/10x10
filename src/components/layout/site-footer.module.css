@@ -96,3 +96,9 @@
   .copy:hover .closing { transform: none; }
   .reactorGlow { animation: none; }
 }
+
+@media (max-width: 1024px) {
+  .copy { padding-top: var(--section-edge); }
+  .copy p { margin-top: var(--section-gap); }
+  .artwork { margin-top: var(--section-gap); }
+}

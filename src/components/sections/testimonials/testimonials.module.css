@@ -114,3 +114,11 @@
   .helmets { height: clamp(9rem, 32vw, 14rem); }
   .content { width: 100%; padding-inline: 5%; }
 }
+
+@media (max-width: 1024px) {
+  .section { min-height: auto; }
+  .content { padding-block: var(--section-edge); }
+  .panel { min-height: clamp(16rem, 36vw, 21rem); }
+  .content h2 { margin-bottom: var(--section-gap); }
+  .controls { margin-top: var(--section-gap); }
+}

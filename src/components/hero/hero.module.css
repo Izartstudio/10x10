@@ -36,7 +36,7 @@
   pointer-events: none;
 }
 
-.videoViewport:has(.video:not([hidden]))::after {
+.videoViewport::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -52,7 +52,17 @@
   object-position: center;
 }
 
-.video[hidden] { display: none; }
+.playVideo {
+  position: absolute;
+  z-index: 3;
+  inset: auto auto 1.5rem 50%;
+  translate: -50% 0;
+  min-height: 44px;
+  padding: .5rem 1rem;
+  border: 1px solid #fff;
+  background: #18100f;
+  cursor: pointer;
+}
 
 .heading {
   position: absolute;

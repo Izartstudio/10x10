@@ -26,7 +26,7 @@ export function HowWeWork() {
     if (!section || !film) return
 
     const media = gsap.matchMedia()
-    media.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+    media.add('(prefers-reduced-motion: no-preference)', () => {
       section.dataset.motion = ''
       const playhead = { frame: 0 }
       let desiredFrame = 0
@@ -53,6 +53,7 @@ export function HowWeWork() {
 
       // A paused video has one seek in flight. Apply the latest target when it finishes.
       film.addEventListener('loadedmetadata', renderFrame)
+      film.addEventListener('loadeddata', renderFrame)
       film.addEventListener('seeked', renderFrame)
       const preload = new IntersectionObserver(([entry]) => {
         if (!entry.isIntersecting) return
@@ -81,6 +82,7 @@ export function HowWeWork() {
       return () => {
         preload.disconnect()
         film.removeEventListener('loadedmetadata', renderFrame)
+        film.removeEventListener('loadeddata', renderFrame)
         film.removeEventListener('seeked', renderFrame)
         film.preload = 'none'
         delete section.dataset.motion
@@ -98,7 +100,7 @@ export function HowWeWork() {
           <video
             ref={video}
             className={styles.film}
-            src="/assets/videos/booth-assembly.mp4"
+            src="/assets/videos/booth-assembly-scrub.mp4"
             poster="/assets/videos/booth-assembly-poster.jpg"
             preload="none"
             muted

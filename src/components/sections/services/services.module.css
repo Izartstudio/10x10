@@ -213,3 +213,8 @@
   .meter { display: none; }
   .visual { padding-inline: 3%; }
 }
+
+@media (max-width: 1024px) {
+  .intro { padding: var(--section-edge) var(--section-gutter) var(--section-gap); }
+  .introCopy { margin-bottom: 0; }
+}

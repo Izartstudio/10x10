@@ -52,7 +52,7 @@ export function SameStandards() {
           <h2 id="same-standards-title" data-markets-intro>Same Standards. Every Market.</h2>
           <p data-markets-intro>
             Las Vegas, Orlando, Paris, Berlin, London, Dubai, Singapore, Tokyo, Riyadh, Amsterdam, Frankfurt, Cologne, Milan and beyond.
-            <br />One team manages the whole programme. The standard never changes.
+            <br />{' '}One team manages the whole programme. The standard never changes.
           </p>
         </header>
 

@@ -56,3 +56,11 @@
   font-size: clamp(1rem, 1.65vw, 1.5rem);
   line-height: 1.5;
 }
+
+@media (max-width: 1024px) {
+  .section {
+    min-height: auto;
+    padding: var(--section-edge) var(--section-gutter);
+  }
+  .reactor, .copy { margin-top: var(--section-gap); }
+}

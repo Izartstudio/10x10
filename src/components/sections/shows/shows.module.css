@@ -118,3 +118,12 @@
 @media (prefers-reduced-motion: reduce) {
   .pause { display: none; }
 }
+
+@media (max-width: 1024px) {
+  .section {
+    min-height: auto;
+    padding: calc(var(--section-edge) + 1.4rem) var(--section-gutter) var(--section-edge);
+  }
+  .ruler { height: 1.4rem; }
+  .carousel, .frame { margin-top: var(--section-gap); }
+}

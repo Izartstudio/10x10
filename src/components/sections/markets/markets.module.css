@@ -64,3 +64,11 @@
   .frame { height: 2.5rem; }
   .header p br { display: none; }
 }
+
+@media (max-width: 1024px) {
+  .section { padding: var(--section-edge) var(--section-gutter); }
+  .header { padding-top: var(--section-gap); }
+  .frame { height: 2.5rem; }
+  .header p { padding-inline: 0; }
+  .globe { margin-top: var(--section-gap); }
+}

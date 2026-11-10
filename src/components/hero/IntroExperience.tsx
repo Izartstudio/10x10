@@ -74,17 +74,6 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
   }, [isReload, revealed])
 
   useEffect(() => {
-    if (!isReload || !video.current) return
-    const media = video.current
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      media.hidden = true
-      return
-    }
-
-    void media.play().catch(() => {})
-  }, [isReload])
-
-  useEffect(() => {
     if (reducedMotion === null || revealed) return
     const hud = overlay.current?.querySelector<HTMLElement>('[data-loader-overlay]')
     const media = video.current
@@ -92,16 +81,14 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
     if (!hud || !media || !content) return
 
     let active = true
-    let starting = false
     let exiting = false
     let fade: gsap.core.Tween | undefined
     const hasFrame = () => !media.error && media.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA
 
-    function reveal(showVideo: boolean) {
+    function reveal() {
       if (!active || exiting || !hud || !media || !content) return
       exiting = true
       window.clearTimeout(deadline)
-      if (!showVideo) media.hidden = true
       content.dataset.heroEntering = ''
       fade = gsap.to(hud, {
         autoAlpha: 0,
@@ -114,42 +101,22 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
       })
     }
 
-    function tryPlayback() {
-      if (!active || !media || exiting) return
-      if (media.error) {
-        reveal(false)
-        return
-      }
-      if (starting || !hasFrame()) return
-      starting = true
-      void media.play().then(
-        () => reveal(true),
-        () => reveal(hasFrame()),
-      )
-    }
+    const deadline = window.setTimeout(reveal, reducedMotion ? 0 : MAX_MEDIA_WAIT_MS)
 
-    const deadline = window.setTimeout(() => {
-      media.pause()
-      reveal(hasFrame())
-    }, reducedMotion ? 0 : MAX_MEDIA_WAIT_MS)
-
-    if (reducedMotion) {
-      reveal(false)
-    } else {
-      media.addEventListener('loadeddata', tryPlayback)
-      media.addEventListener('canplay', tryPlayback)
-      media.addEventListener('error', tryPlayback)
-      tryPlayback()
+    if (reducedMotion || media.error || hasFrame()) reveal()
+    else {
+      media.addEventListener('loadeddata', reveal)
+      media.addEventListener('canplay', reveal)
+      media.addEventListener('error', reveal)
     }
 
     return () => {
       active = false
       window.clearTimeout(deadline)
-      media.removeEventListener('loadeddata', tryPlayback)
-      media.removeEventListener('canplay', tryPlayback)
-      media.removeEventListener('error', tryPlayback)
+      media.removeEventListener('loadeddata', reveal)
+      media.removeEventListener('canplay', reveal)
+      media.removeEventListener('error', reveal)
       fade?.kill()
-      if (!exiting && starting) media.pause()
       delete content.dataset.heroEntering
     }
   }, [reducedMotion, revealed])
