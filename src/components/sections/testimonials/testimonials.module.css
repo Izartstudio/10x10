@@ -31,13 +31,25 @@
 .panel {
   position: relative;
   isolation: isolate;
+  display: grid;
+  min-height: clamp(21rem, 31vw, 28rem);
+  margin: 0;
+  padding: clamp(2rem, 5vw, 4.5rem) clamp(1.6rem, 4.58vw, 4.125rem);
+}
+
+.slide {
+  grid-area: 1 / 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 1.5rem;
-  min-height: clamp(21rem, 31vw, 28rem);
-  margin: 0;
-  padding: clamp(2rem, 5vw, 4.5rem) clamp(1.6rem, 4.58vw, 4.125rem);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.slide[data-active="true"] {
+  opacity: 1;
+  visibility: visible;
 }
 
 .frame {
@@ -94,17 +106,13 @@
     animation: helmet-charge var(--helmet-duration) ease-in-out var(--helmet-delay) infinite both paused;
   }
   .visible .helmet { animation-play-state: running; }
-  .quote, .attribution { animation: testimonial-enter .28s ease-out both; }
+  .slide { transition: opacity .7s ease, visibility 0s linear .7s; }
+  .slide[data-active="true"] { transition-delay: 0s; }
 }
 
 @keyframes helmet-charge {
   0%, 32%, 100% { opacity: .18; }
   14% { opacity: 1; }
-}
-
-@keyframes testimonial-enter {
-  from { opacity: 0; transform: translateY(.35rem); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 767px) {
