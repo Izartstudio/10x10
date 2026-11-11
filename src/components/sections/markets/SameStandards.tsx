@@ -2,9 +2,11 @@
 
 import { useRef } from 'react'
 import { gsap, useGSAP } from '@/lib/animations/gsap'
+import { usePageVideo } from '@/lib/pageVideos'
 import styles from './markets.module.css'
 
 export function SameStandards() {
+  const videoSource = usePageVideo('globe')
   const root = useRef<HTMLElement>(null)
   const video = useRef<HTMLVideoElement>(null)
 
@@ -60,7 +62,7 @@ export function SameStandards() {
       <div className={styles.globe} aria-hidden="true">
         <video
           ref={video}
-          src="/assets/videos/markets-globe.mp4"
+          src={videoSource}
           poster="/assets/videos/markets-globe-poster.jpg"
           preload="none"
           muted

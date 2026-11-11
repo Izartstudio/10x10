@@ -1,17 +1,12 @@
 'use client'
 
 import { useEffect, useRef, type ReactNode } from 'react'
+import { bentoCompositions, loadBentoPlayer } from '@/lib/animations/bentoAssets'
 import type { AnimationItem } from 'lottie-web'
 import styles from './clients.module.css'
 
-const compositions = {
-  'World-Map-Bento': () => import('../../../../public/assets/animations/World-Map-Bento.json'),
-  'Line-Bento': () => import('../../../../public/assets/animations/Line-Bento.json'),
-  'Bento-Logo': () => import('../../../../public/assets/animations/Bento-Logo.json'),
-}
-
 export function BentoAnimation({ name, className, children, loop = false, stretch = false }: {
-  name: keyof typeof compositions
+  name: keyof typeof bentoCompositions
   className: string
   children: ReactNode
   loop?: boolean
@@ -45,8 +40,8 @@ export function BentoAnimation({ name, className, children, loop = false, stretc
     async function load() {
       try {
         const [{ default: lottie }, { default: data }] = await Promise.all([
-          import('lottie-web/build/player/lottie_svg'),
-          compositions[name](),
+          loadBentoPlayer(),
+          bentoCompositions[name](),
         ])
         if (disposed || !player || !wrapper) return
         const rendererSettings = {

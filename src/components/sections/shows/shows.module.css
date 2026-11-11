@@ -48,15 +48,10 @@
 .carousel {
   --logo-gap: clamp(1rem, 4.75vw, 4.25rem);
   position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(.8rem, 5.6vw, 5rem);
   margin-top: clamp(2.2rem, 4.65vw, 4.2rem);
 }
 
-.viewport { overflow: clip; touch-action: pan-y; cursor: grab; }
-.viewport:active { cursor: grabbing; }
+.viewport { overflow: clip; }
 .rail, .logoGroup { display: flex; width: max-content; }
 .rail { will-change: transform; }
 .logoGroup { gap: var(--logo-gap); padding-right: var(--logo-gap); }
@@ -73,35 +68,6 @@
 
 .logo img { object-fit: contain; pointer-events: none; }
 
-.arrow {
-  display: grid;
-  place-items: center;
-  width: 1.875rem;
-  height: 1.875rem;
-  background: #790c04;
-  cursor: pointer;
-}
-.arrow:hover { background: #b51006; }
-.arrow:focus-visible, .pause:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
-
-.pause {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-.pause:focus-visible {
-  top: 100%;
-  left: 0;
-  width: auto;
-  height: auto;
-  clip-path: none;
-  background: #790c04;
-  padding: .35rem .65rem;
-}
-
 .frame {
   display: block;
   width: 99%;
@@ -111,12 +77,13 @@
 }
 
 @media (max-width: 767px) {
-  .carousel { gap: .75rem; }
   .section::before { inset-inline: 8%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pause { display: none; }
+  .rail { width: 100%; transform: none !important; }
+  .logoGroup { width: 100%; flex-wrap: wrap; justify-content: center; padding-right: 0; }
+  .logoGroup + .logoGroup { display: none; }
 }
 
 @media (max-width: 1024px) {

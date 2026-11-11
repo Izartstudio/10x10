@@ -2,10 +2,11 @@ import Image from 'next/image'
 import { useEffect, useState, type RefObject } from 'react'
 import styles from './hero.module.css'
 
-export function HeroSection({ videoRef, revealed, backHref }: {
+export function HeroSection({ videoRef, revealed, backHref, videoSource }: {
   videoRef: RefObject<HTMLVideoElement | null>
   revealed: boolean
   backHref: string
+  videoSource?: string
 }) {
   const [needsPlay, setNeedsPlay] = useState(false)
 
@@ -45,7 +46,7 @@ export function HeroSection({ videoRef, revealed, backHref }: {
         <video
           ref={videoRef}
           className={styles.video}
-          src="/assets/videos/hero-intro.mp4"
+          src={videoSource}
           poster="/assets/videos/hero-intro-poster.webp"
           preload="auto"
           muted

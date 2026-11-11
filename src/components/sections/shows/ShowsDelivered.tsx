@@ -11,7 +11,7 @@ const TICKS = Array.from({ length: 91 }, (_, index) => `M${index * 13 + 1} 0v${i
 
 export function ShowsDelivered() {
   const root = useRef<HTMLElement>(null)
-  const { carousel, viewport, rail, move, isPaused, togglePause } = useLoopingRail()
+  const { viewport, rail } = useLoopingRail()
 
   useGSAP(() => {
     const section = root.current
@@ -37,8 +37,7 @@ export function ShowsDelivered() {
         <h2 id="shows-title" data-shows-copy>Shows We&apos;ve Delivered Across the World</h2>
         <p data-shows-copy>CES, Con Expo, NRF, IMTS, Big 5 Global, METS Trade, SIAL, Gulfood, GITEX, Milipol, Dubai Boat Show and dozens of others around the world.</p>
       </div>
-      <div ref={carousel} className={styles.carousel} role="group" aria-label="Exhibition show logos">
-        <button type="button" className={styles.arrow} aria-label="Previous show" onClick={() => move.current?.(-1)}>←</button>
+      <div className={styles.carousel} role="group" aria-label="Exhibition show logos">
         <div ref={viewport} className={styles.viewport}>
           <div ref={rail} className={styles.rail}>
             {[0, 1].map((copy) => (
@@ -52,8 +51,6 @@ export function ShowsDelivered() {
             ))}
           </div>
         </div>
-        <button type="button" className={styles.arrow} aria-label="Next show" onClick={() => move.current?.(1)}>→</button>
-        <button type="button" className={styles.pause} aria-pressed={isPaused} onClick={togglePause}>Pause logo motion</button>
       </div>
       <svg className={styles.frame} viewBox="0 0 1328 196" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <path d="M1 148 400 99 467 0M1327 148 928 99 861 0M1 187 664 104 1327 193" stroke="currentColor" strokeWidth="5" fill="none" />

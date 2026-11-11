@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+:root {
+  --company-entry-red: #5d0402;
+  --footer-entry-color: #020202;
+}
+
 html:has([data-loader-overlay]) {
   overscroll-behavior-y: none;
 }
@@ -10,4 +15,41 @@ html:has([data-loader-overlay]) {
     --section-gap: clamp(1.25rem, 3vw, 2rem);
     --section-gutter: clamp(1.25rem, 5vw, 2.5rem);
   }
+}
+
+.section-frame {
+  --frame-width: .9375rem;
+  --frame-left-start: #e03109;
+  --frame-left-end: #8e1b06;
+  --frame-right-start: #911b05;
+  --frame-right-end: #370b04;
+  padding-inline: var(--frame-width);
+  background:
+    linear-gradient(var(--frame-left-start), var(--frame-left-end)) left / var(--frame-width) 100% no-repeat,
+    linear-gradient(var(--frame-right-start), var(--frame-right-end)) right / var(--frame-width) 100% no-repeat;
+}
+
+.section-frame--services {
+  padding-block-start: var(--frame-width);
+  background:
+    linear-gradient(to top, var(--company-entry-red), transparent) left bottom / var(--frame-width) 8rem no-repeat,
+    linear-gradient(138deg, #f42f02, #000);
+}
+
+.section-frame--clients {
+  --frame-left-start: transparent;
+  --frame-right-start: transparent;
+  --frame-left-end: #b82507;
+  --frame-right-end: #601205;
+}
+
+.section-frame--continued {
+  --frame-left-start: #b82507;
+  --frame-right-start: #601205;
+  --frame-left-end: var(--footer-entry-color);
+  --frame-right-end: var(--footer-entry-color);
+}
+
+@media (max-width: 767px) {
+  .section-frame { --frame-width: .3125rem; }
 }

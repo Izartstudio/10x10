@@ -4,9 +4,11 @@ import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, typ
 import { IronManLoader } from '@/components/loader/IronManLoader'
 import { gsap, ScrollTrigger } from '@/lib/animations/gsap'
 import { preloadIntroAssets } from '@/lib/preloadIntroAssets'
+import { PageVideoContext, pageVideos, type PageVideoSources } from '@/lib/pageVideos'
 import { HeroSection } from './HeroSection'
 
 const MAX_MEDIA_WAIT_MS = 2200
+const MAX_ASSET_WAIT_MS = 30_000
 
 const subscribeToNavigation = () => () => {}
 const getServerNavigation = () => null
@@ -33,6 +35,7 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
 }) {
   const [reducedMotion, setLoaderComplete] = useState<boolean | null>(null)
   const [introComplete, setIntroComplete] = useState(false)
+  const [preparedVideos, setPreparedVideos] = useState<PageVideoSources | null>(null)
   const isReload = useSyncExternalStore(subscribeToNavigation, isReloadNavigation, getServerNavigation)
   const revealed = introComplete || isReload === true
   const main = useRef<HTMLElement>(null)
@@ -40,7 +43,30 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
   const video = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
-    if (isReload === false) preloadIntroAssets()
+    if (isReload !== false) return
+
+    const controller = new AbortController()
+    const sources: PageVideoSources = {}
+    let active = true
+    let finished = false
+
+    function finish() {
+      if (!active || finished) return
+      finished = true
+      window.clearTimeout(deadline)
+      controller.abort()
+      setPreparedVideos({ ...sources })
+    }
+
+    const deadline = window.setTimeout(finish, MAX_ASSET_WAIT_MS)
+    void preloadIntroAssets(controller.signal, sources).then(finish, finish)
+
+    return () => {
+      active = false
+      window.clearTimeout(deadline)
+      controller.abort()
+      Object.values(sources).forEach((source) => URL.revokeObjectURL(source))
+    }
   }, [isReload])
 
   useLayoutEffect(() => {
@@ -74,7 +100,7 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
   }, [isReload, revealed])
 
   useEffect(() => {
-    if (reducedMotion === null || revealed) return
+    if (reducedMotion === null || preparedVideos === null || revealed) return
     const hud = overlay.current?.querySelector<HTMLElement>('[data-loader-overlay]')
     const media = video.current
     const content = main.current
@@ -119,17 +145,35 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
       fade?.kill()
       delete content.dataset.heroEntering
     }
-  }, [reducedMotion, revealed])
+  }, [preparedVideos, reducedMotion, revealed])
 
   return (
     <>
-      <main ref={main}>
-        <HeroSection videoRef={video} revealed={revealed} backHref={backHref} />
-        {revealed && children}
-      </main>
-      {revealed && footer}
+      <PageVideoContext.Provider value={preparedVideos ?? {}}>
+        <main ref={main}>
+          <HeroSection
+            videoRef={video}
+            revealed={revealed}
+            backHref={backHref}
+            videoSource={preparedVideos?.hero ?? (isReload || preparedVideos ? pageVideos.hero : undefined)}
+          />
+          {revealed && children}
+        </main>
+        {revealed && footer}
+      </PageVideoContext.Provider>
       {isReload === null && <div className="fixed inset-0 z-[2] bg-[#030101]" aria-hidden="true" />}
-      {isReload === false && !revealed && <div ref={overlay}><IronManLoader onComplete={setLoaderComplete}>{artwork}</IronManLoader></div>}
+      {isReload === false && !revealed && (
+        <div ref={overlay}>
+          <IronManLoader onComplete={setLoaderComplete}>
+            {artwork}
+            {reducedMotion === false && preparedVideos === null && (
+              <p role="status" className="pointer-events-none absolute inset-x-0 bottom-3 text-center text-xs text-white">
+                Loading site assets…
+              </p>
+            )}
+          </IronManLoader>
+        </div>
+      )}
     </>
   )
 }

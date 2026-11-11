@@ -7,7 +7,10 @@
   overflow: clip;
   color: #fff;
   font-family: "Plus Jakarta Sans", system-ui, sans-serif;
-  background: #020202 url("/assets/images/footer-backdrop.webp") center bottom / 100% auto no-repeat;
+  background:
+    linear-gradient(var(--footer-entry-color), transparent) top / 100% 2rem no-repeat,
+    url("/assets/images/footer-backdrop.webp") center bottom / 100% auto no-repeat,
+    var(--footer-entry-color);
 }
 
 .copy {

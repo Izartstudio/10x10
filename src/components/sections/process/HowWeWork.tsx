@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/animations/gsap'
 import { HudMicroText } from '@/components/layout/HudMicroText'
+import { usePageVideo } from '@/lib/pageVideos'
 import styles from './process.module.css'
 
 const STEPS = [
@@ -17,6 +18,7 @@ const FRAMES_PER_STEP = 60
 const FPS = 30
 
 export function HowWeWork() {
+  const videoSource = usePageVideo('process')
   const root = useRef<HTMLElement>(null)
   const track = useRef<HTMLDivElement>(null)
   const video = useRef<HTMLVideoElement>(null)
@@ -33,7 +35,19 @@ export function HowWeWork() {
       const playhead = { frame: 0 }
       let desiredFrame = 0
       let requestedFrame = -1
-      let activeStep = -1
+      let activeStep = 0
+      let frameCallback: number | undefined
+      section.dataset.step = '0'
+
+      function syncCard(mediaTime: number) {
+        if (!section) return
+        const frame = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(mediaTime * FPS)))
+        const step = Math.min(STEPS.length - 1, Math.floor(frame / FRAMES_PER_STEP))
+        if (step !== activeStep) {
+          activeStep = step
+          section.dataset.step = String(step)
+        }
+      }
 
       function renderFrame() {
         if (!film || film.error || film.readyState < HTMLMediaElement.HAVE_METADATA || film.seeking) return
@@ -43,20 +57,29 @@ export function HowWeWork() {
       }
 
       function update() {
-        if (!section) return
         desiredFrame = Math.round(playhead.frame)
-        const step = Math.min(STEPS.length - 1, Math.floor(desiredFrame / FRAMES_PER_STEP))
-        if (step !== activeStep) {
-          activeStep = step
-          section.dataset.step = String(step)
-        }
         renderFrame()
       }
+
+      const supportsFrameCallback = typeof film.requestVideoFrameCallback === 'function'
+      function onPresentedFrame(_: number, metadata: VideoFrameCallbackMetadata) {
+        if (!film) return
+        syncCard(metadata.mediaTime)
+        frameCallback = film.requestVideoFrameCallback(onPresentedFrame)
+      }
+
+      function onSeeked() {
+        if (!film) return
+        if (!supportsFrameCallback) syncCard(film.currentTime)
+        renderFrame()
+      }
+
+      if (supportsFrameCallback) frameCallback = film.requestVideoFrameCallback(onPresentedFrame)
 
       // A paused video has one seek in flight. Apply the latest target when it finishes.
       film.addEventListener('loadedmetadata', renderFrame)
       film.addEventListener('loadeddata', renderFrame)
-      film.addEventListener('seeked', renderFrame)
+      film.addEventListener('seeked', onSeeked)
       const preload = new IntersectionObserver(([entry]) => {
         if (!entry.isIntersecting) return
         film.preload = 'auto'
@@ -85,7 +108,8 @@ export function HowWeWork() {
         preload.disconnect()
         film.removeEventListener('loadedmetadata', renderFrame)
         film.removeEventListener('loadeddata', renderFrame)
-        film.removeEventListener('seeked', renderFrame)
+        film.removeEventListener('seeked', onSeeked)
+        if (frameCallback !== undefined) film.cancelVideoFrameCallback(frameCallback)
         film.preload = 'none'
         delete section.dataset.motion
         delete section.dataset.step
@@ -132,7 +156,7 @@ export function HowWeWork() {
             <video
               ref={video}
               className={styles.film}
-              src="/assets/videos/booth-assembly-scrub.mp4"
+              src={videoSource}
               poster="/assets/videos/booth-assembly-poster.jpg"
               preload="none"
               muted

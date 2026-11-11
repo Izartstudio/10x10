@@ -1,7 +1,14 @@
-import { preload } from 'react-dom'
 import { services } from '@/components/sections/services/servicesContent'
 
-const LATER_IMAGES = [
+import { bentoCompositions, loadBentoPlayer } from './animations/bentoAssets'
+import { pageVideos, type PageVideoSources } from './pageVideos'
+
+const IMAGES = [
+  '/assets/videos/hero-intro-poster.webp',
+  '/assets/svg/10x10-booths-wordmark.svg',
+  '/assets/svg/10x10-cube.svg',
+  '/assets/images/services/background.webp',
+  ...services.map(({ image }) => `/assets/images/services/${image}.webp`),
   '/assets/videos/booth-assembly-poster.jpg',
   '/assets/videos/markets-globe-poster.jpg',
   '/assets/images/arc-reactor-core.webp',
@@ -15,14 +22,26 @@ const LATER_IMAGES = [
   ...Array.from({ length: 12 }, (_, index) => `/assets/images/work/booth-${index + 1}.avif`),
 ]
 
-export function preloadIntroAssets() {
-  preload('/assets/images/services/background.webp', { as: 'image' })
-  services.forEach(({ image }, index) => {
-    preload(`/assets/images/services/${image}.webp`, {
-      as: 'image',
-      fetchPriority: index === 0 ? 'auto' : 'low',
-    })
-  })
+const FONTS = ['400 16px "Plus Jakarta Sans"', '400 16px "Bai Jamjuree"', '600 16px "Bai Jamjuree"']
 
-  for (const image of LATER_IMAGES) preload(image, { as: 'image', fetchPriority: 'low' })
+export async function preloadIntroAssets(signal: AbortSignal, videoSources: PageVideoSources) {
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const images = IMAGES.map(async (source) => {
+    const image = new Image()
+    image.src = source
+    await image.decode()
+  })
+  const fonts = FONTS.map((font) => document.fonts.load(font))
+  const motionAssets = reducedMotion ? [] : [
+    loadBentoPlayer(),
+    ...Object.values(bentoCompositions).map((load) => load()),
+    ...Object.entries(pageVideos).map(async ([name, source]) => {
+      const response = await fetch(source, { signal })
+      if (!response.ok) throw new Error(`Could not load ${source}`)
+      const blob = await response.blob()
+      if (!signal.aborted) videoSources[name as keyof PageVideoSources] = URL.createObjectURL(blob)
+    }),
+  ]
+
+  await Promise.allSettled([...images, ...fonts, ...motionAssets])
 }

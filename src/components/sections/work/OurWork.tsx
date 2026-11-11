@@ -11,7 +11,7 @@ const PROJECTS = [1, 3, 4, 2, 5, 6, 7, 8, 9, 10, 11, 12]
 
 export function OurWork() {
   const root = useRef<HTMLElement>(null)
-  const { carousel, viewport, rail, move, isPaused, togglePause } = useLoopingRail()
+  const { viewport, rail } = useLoopingRail()
 
   useGSAP(() => {
     const media = gsap.matchMedia()
@@ -38,7 +38,7 @@ export function OurWork() {
         <h2 id="work-title" data-work-copy>Our Work</h2>
         <p data-work-copy>Discover the stands we have built in past projects</p>
       </header>
-      <div ref={carousel} className={styles.carousel} role="group" aria-label="Exhibition stand projects">
+      <div className={styles.carousel} role="group" aria-label="Exhibition stand projects">
         <div className={styles.frame} aria-hidden="true">
           {[0, 1].map((side) => (
             <svg key={side} viewBox="0 0 189 163" focusable="false">
@@ -47,7 +47,6 @@ export function OurWork() {
             </svg>
           ))}
         </div>
-        <button type="button" className={styles.arrow} aria-label="Previous project" onClick={() => move.current?.(-1)}>←</button>
         <div ref={viewport} className={styles.viewport}>
           <div ref={rail} className={styles.rail}>
             {[0, 1].map((copy) => (
@@ -61,8 +60,6 @@ export function OurWork() {
             ))}
           </div>
         </div>
-        <button type="button" className={styles.arrow} aria-label="Next project" onClick={() => move.current?.(1)}>→</button>
-        <button type="button" className={styles.pause} aria-pressed={isPaused} onClick={togglePause}>Pause project motion</button>
       </div>
     </section>
   )

@@ -18,16 +18,22 @@ export default function Page() {
       footer={<SiteFooter />}
       backHref={process.env.BACK_TO_WEBSITE_URL || 'https://www.10x10booths.com/'}
     >
-      <ExhibitionServices />
-      <HowWeWork />
+      <div className="section-frame section-frame--services">
+        <ExhibitionServices />
+        <HowWeWork />
+      </div>
       <div className={aboutStyles.companyBackdrop}>
         <WhoWeAre />
-        <WhyClientsComeBack />
+        <div className="section-frame section-frame--clients">
+          <WhyClientsComeBack />
+        </div>
       </div>
-      <SameStandards />
-      <ShowsDelivered />
-      <Testimonials />
-      <OurWork />
+      <div className="section-frame section-frame--continued">
+        <SameStandards />
+        <ShowsDelivered />
+        <Testimonials />
+        <OurWork />
+      </div>
     </IntroExperience>
   )
 }

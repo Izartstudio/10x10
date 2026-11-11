@@ -1,15 +1,17 @@
 .companyBackdrop {
   background-color: #030303;
   background-image:
+    radial-gradient(ellipse 5rem 5rem at left top, var(--company-entry-red) 20%, transparent),
     linear-gradient(to top, #000, transparent clamp(5rem, 12vw, 11rem)),
     linear-gradient(231deg, #030303 34%, #e50400 72%),
     linear-gradient(307deg, #030303 37%, #e50400 76%);
-  background-blend-mode: normal, darken, normal;
+  background-blend-mode: normal, normal, darken, normal;
 }
 
 @media (max-width: 767px) {
   .companyBackdrop {
     background-image:
+      radial-gradient(ellipse 5rem 5rem at left top, var(--company-entry-red) 20%, transparent),
       linear-gradient(to top, #000, transparent 6rem),
       radial-gradient(ellipse 100% 65% at 0 45%, #e50400, #790900 48%, transparent);
     background-blend-mode: normal;
