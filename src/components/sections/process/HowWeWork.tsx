@@ -18,12 +18,14 @@ const FPS = 30
 
 export function HowWeWork() {
   const root = useRef<HTMLElement>(null)
+  const track = useRef<HTMLDivElement>(null)
   const video = useRef<HTMLVideoElement>(null)
 
   useGSAP(() => {
     const section = root.current
     const film = video.current
-    if (!section || !film) return
+    const scrollTrack = track.current
+    if (!section || !film || !scrollTrack) return
 
     const media = gsap.matchMedia()
     media.add('(prefers-reduced-motion: no-preference)', () => {
@@ -70,7 +72,7 @@ export function HowWeWork() {
         onUpdate: update,
       })
       ScrollTrigger.create({
-        trigger: section,
+        trigger: scrollTrack,
         animation,
         start: 'top top',
         end: 'bottom bottom',
@@ -95,19 +97,7 @@ export function HowWeWork() {
 
   return (
     <section ref={root} className={styles.section} aria-labelledby="how-we-work-title">
-      <div className={styles.stage}>
-        <div className={styles.scenery} aria-hidden="true">
-          <video
-            ref={video}
-            className={styles.film}
-            src="/assets/videos/booth-assembly-scrub.mp4"
-            poster="/assets/videos/booth-assembly-poster.jpg"
-            preload="none"
-            muted
-            playsInline
-            onError={(event) => { event.currentTarget.hidden = true }}
-          />
-        </div>
+      <div className={styles.intro}>
         <div className={styles.heading}>
           <p>Partner from strategy to flawless execution</p>
           <h2 id="how-we-work-title">How We Work</h2>
@@ -120,22 +110,37 @@ export function HowWeWork() {
           <HudMicroText as="p">Active Status</HudMicroText>
           <HudMicroText as="pre">{'[ICVSM]-1011\nLDA--54685--L8\n----------------\nSTA-/A1+1\nA1-/3C\nA1-/3E\nA4--SC311'}</HudMicroText>
         </div>
-
-        <ol className={styles.steps}>
-          {STEPS.map(([title, description], index) => (
-            <li key={title} className={styles.step} data-step-card={index}>
-              <svg className={styles.card} viewBox="0 0 322 220" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-                <path d="M1 9 20 1H85L89 4H111L125 9H198L212 4H228L234 1H304L321 7V46L308 53V155L316 162V209L309 216H265L258 210H62L55 218H14L5 210V164L13 157V53L1 46Z" fill="#9c190d" fillOpacity=".23" stroke="#a71d0e" strokeWidth="2" />
-                <path d="M5 205H249V213H61L55 219H14L5 212Z" fill="#ef0b00" />
-              </svg>
-              <div className={styles.stepCopy}>
-                <HudMicroText as="p" className={styles.number}>{`// 0${index + 1}`}</HudMicroText>
-                <h3>{title}</h3>
-                <p>{description}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+      </div>
+      <div ref={track} className={styles.track}>
+        <div className={styles.stage}>
+          <ol className={styles.steps}>
+            {STEPS.map(([title, description], index) => (
+              <li key={title} className={styles.step} data-step-card={index}>
+                <svg className={styles.card} viewBox="0 0 322 220" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                  <path d="M1 9 20 1H85L89 4H111L125 9H198L212 4H228L234 1H304L321 7V46L308 53V155L316 162V209L309 216H265L258 210H62L55 218H14L5 210V164L13 157V53L1 46Z" fill="#9c190d" fillOpacity=".23" stroke="#a71d0e" strokeWidth="2" />
+                  <path d="M5 205H249V213H61L55 219H14L5 212Z" fill="#ef0b00" />
+                </svg>
+                <div className={styles.stepCopy}>
+                  <HudMicroText as="p" className={styles.number}>{`// 0${index + 1}`}</HudMicroText>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <div className={styles.scenery} aria-hidden="true">
+            <video
+              ref={video}
+              className={styles.film}
+              src="/assets/videos/booth-assembly-scrub.mp4"
+              poster="/assets/videos/booth-assembly-poster.jpg"
+              preload="none"
+              muted
+              playsInline
+              onError={(event) => { event.currentTarget.hidden = true }}
+            />
+          </div>
+        </div>
       </div>
     </section>
   )

@@ -55,19 +55,19 @@ export function SameStandards() {
             <br />{' '}One team manages the whole programme. The standard never changes.
           </p>
         </header>
+      </div>
 
-        <div className={styles.globe} aria-hidden="true">
-          <video
-            ref={video}
-            src="/assets/videos/markets-globe-dark.mp4"
-            poster="/assets/videos/markets-globe-dark-poster.jpg"
-            preload="none"
-            muted
-            loop
-            playsInline
-            onError={(event) => { event.currentTarget.hidden = true }}
-          />
-        </div>
+      <div className={styles.globe} aria-hidden="true">
+        <video
+          ref={video}
+          src="/assets/videos/markets-globe.mp4"
+          poster="/assets/videos/markets-globe-poster.jpg"
+          preload="none"
+          muted
+          loop
+          playsInline
+          onError={(event) => { event.currentTarget.hidden = true }}
+        />
       </div>
     </section>
   )

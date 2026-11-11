@@ -2,12 +2,12 @@
   --markets-red: #ef0b00;
   background: #000;
   color: #fff;
-  padding: clamp(2.75rem, 5.14vw, 5rem) 3.47% 0;
+  padding-top: clamp(2.75rem, 5.14vw, 5rem);
   font-family: "Plus Jakarta Sans", system-ui, sans-serif;
 }
 
 .layout {
-  max-width: 90rem;
+  width: min(93.06%, 90rem);
   margin-inline: auto;
 }
 
@@ -47,7 +47,7 @@
   margin: clamp(1.5rem, 3.1vw, 2.75rem) auto 0;
   aspect-ratio: 16 / 9;
   overflow: clip;
-  background: #000 url("/assets/videos/markets-globe-dark-poster.jpg") center / 108% auto no-repeat;
+  background: #000 url("/assets/videos/markets-globe-poster.jpg") center / contain no-repeat;
 }
 
 .globe video {
@@ -55,7 +55,6 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transform: scale(1.08);
 }
 
 .globe video[hidden] { display: none; }
@@ -66,7 +65,8 @@
 }
 
 @media (max-width: 1024px) {
-  .section { padding: var(--section-edge) var(--section-gutter); }
+  .section { padding-block: var(--section-edge); }
+  .layout { width: calc(100% - 2 * var(--section-gutter)); }
   .header { padding-top: var(--section-gap); }
   .frame { height: 2.5rem; }
   .header p { padding-inline: 0; }

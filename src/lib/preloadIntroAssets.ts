@@ -3,7 +3,7 @@ import { services } from '@/components/sections/services/servicesContent'
 
 const LATER_IMAGES = [
   '/assets/videos/booth-assembly-poster.jpg',
-  '/assets/videos/markets-globe-dark-poster.jpg',
+  '/assets/videos/markets-globe-poster.jpg',
   '/assets/images/arc-reactor-core.webp',
   '/assets/images/clients/world-map.webp',
   '/assets/images/clients/booth.avif',
