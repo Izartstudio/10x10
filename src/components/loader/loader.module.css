@@ -1,20 +1,5 @@
-@font-face {
-  font-family: "Bai Jamjuree";
-  src: url("/assets/fonts/BaiJamjuree-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Bai Jamjuree";
-  src: url("/assets/fonts/BaiJamjuree-SemiBold.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
 .loader {
+  font-family: "Bai Jamjuree";
   position: fixed;
   z-index: 2;
   inset: 0;
@@ -60,13 +45,13 @@
 }
 
 .terminal {
-  font-family: "Bai Jamjuree", Arial, sans-serif;
+  font-family: "Bai Jamjuree";
   font-size: 12px;
   white-space: pre;
 }
 
 .message {
-  font-family: "Bai Jamjuree", "Trebuchet MS", Arial, sans-serif;
+  font-family: "Bai Jamjuree";
   font-size: 32px;
   font-weight: 400;
   white-space: pre;
@@ -115,7 +100,7 @@
   padding: .35rem .6rem;
   background: #160907;
   color: #fff;
-  font: 12px system-ui, sans-serif;
+  font-size: 12px;
 }
 
 .inspector[hidden] { display: none; }

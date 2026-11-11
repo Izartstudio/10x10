@@ -1,5 +1,45 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Basis Grotesque Arabic Pro";
+  src: url("/assets/fonts/BasisGrotesqueArabicPro-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/assets/fonts/BaiJamjuree-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/assets/fonts/BaiJamjuree-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: block;
+}
+
+@layer base {
+  body { font-family: "Basis Grotesque Arabic Pro"; }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Plus Jakarta Sans";
+    font-weight: 500;
+  }
+}
+
 :root {
   --company-entry-red: #5d0402;
   --footer-entry-color: #020202;

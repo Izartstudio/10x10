@@ -1,7 +1,6 @@
 .section {
   position: relative;
   min-height: 815px;
-  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
   padding: 160px 0 120px;
   background: radial-gradient(ellipse 475px 340px at 50% 60%, #650600, #210200 58%, #000 100%);
   color: #fff;
@@ -13,7 +12,7 @@
   display: flex;
   justify-content: space-between;
   color: #ed0a00;
-  font: 9px/11px "Bai Jamjuree", sans-serif;
+  font: 9px/11px "Bai Jamjuree";
   white-space: pre;
   pointer-events: none;
 }

@@ -26,7 +26,6 @@
   padding: clamp(3rem, 5.2vw, 4.6875rem) 5% clamp(2rem, 3.9vw, 3.5rem);
   overflow: clip;
   color: #fff;
-  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
   text-align: center;
 }
 
@@ -36,7 +35,6 @@
   background-clip: text;
   color: transparent;
   font-size: clamp(2.4rem, 12.5vw, 11.25rem);
-  font-weight: 700;
   letter-spacing: -.05em;
   line-height: 1.03;
 }

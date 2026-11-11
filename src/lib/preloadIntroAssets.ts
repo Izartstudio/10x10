@@ -22,7 +22,7 @@ const IMAGES = [
   ...Array.from({ length: 12 }, (_, index) => `/assets/images/work/booth-${index + 1}.avif`),
 ]
 
-const FONTS = ['400 16px "Plus Jakarta Sans"', '400 16px "Bai Jamjuree"', '600 16px "Bai Jamjuree"']
+const FONTS = ['400 16px "Basis Grotesque Arabic Pro"', '500 16px "Plus Jakarta Sans"', '400 16px "Bai Jamjuree"', '600 16px "Bai Jamjuree"']
 
 export async function preloadIntroAssets(signal: AbortSignal, videoSources: PageVideoSources) {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches

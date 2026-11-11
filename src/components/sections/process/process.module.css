@@ -1,7 +1,6 @@
 .section {
   background: #080606;
   color: white;
-  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
 }
 
 .intro {
@@ -51,7 +50,6 @@
   margin-top: .9rem;
   color: #ef0b00;
   font-size: clamp(2rem, 2.92vw, 2.625rem);
-  font-weight: 400;
   line-height: 1.15;
 }
 
@@ -65,7 +63,7 @@
 .status svg { display: block; width: 100%; }
 .status p {
   margin-top: .75rem;
-  font: clamp(.75rem, 1.39vw, 1.25rem) / 1.2 Arial, sans-serif;
+  font: clamp(.75rem, 1.39vw, 1.25rem) / 1.2 "Bai Jamjuree";
   text-transform: uppercase;
 }
 
@@ -81,7 +79,7 @@
 .status pre {
   margin-top: 1rem;
   color: #a39b98;
-  font: .75rem / 1.25 "Bai Jamjuree", sans-serif;
+  font: .75rem / 1.25 "Bai Jamjuree";
 }
 
 .steps {
@@ -113,7 +111,6 @@
 .stepCopy h3 {
   margin: .45rem 0 .35rem;
   font-size: 1.5rem;
-  font-weight: 600;
   text-transform: uppercase;
 }
 .stepCopy p:last-child { font-size: .875rem; line-height: 1.5; }

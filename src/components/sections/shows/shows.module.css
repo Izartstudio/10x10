@@ -6,7 +6,6 @@
   padding: clamp(6rem, 11.6vw, 10.5rem) 3.47% 2rem;
   background: #000;
   color: #fff;
-  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
 }
 
 .section::before {
@@ -34,7 +33,6 @@
   margin: 0;
   color: #ef0b00;
   font-size: clamp(1.75rem, 2.78vw, 2.5rem);
-  font-weight: 400;
   line-height: 1.2;
 }
 
