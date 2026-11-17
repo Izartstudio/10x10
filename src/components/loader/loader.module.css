@@ -114,3 +114,30 @@
 
 .inspector input { accent-color: #e50400; }
 .inspector output { min-width: 4.2em; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 1024px), (max-width: 1366px) and (orientation: portrait) {
+  .upperFrame, .lowerFrame {
+    --vertical-offset: clamp(0px, calc(34dvh - 19.65vw), 28dvh);
+  }
+
+  .upperFrame { transform: translateY(calc(-1 * var(--vertical-offset))); }
+  .lowerFrame { transform: translateY(var(--vertical-offset)); }
+
+  .scanner {
+    transform-origin: 50% 54.5%;
+    transform: translateY(-4.5%) scale(1.35);
+  }
+}
+
+@media (max-width: 767px) {
+  .caption {
+    transform-box: fill-box;
+    transform-origin: center;
+    scale: 1.6;
+  }
+
+  .leftHud {
+    transform-origin: 4% 24%;
+    transform: scale(1.28);
+  }
+}

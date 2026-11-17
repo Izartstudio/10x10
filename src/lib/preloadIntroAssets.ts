@@ -45,6 +45,10 @@ export async function preloadIntroAssets(signal: AbortSignal, videoSources: Page
   })
   const fonts = FONTS.map((font) => document.fonts.load(font))
   const motionAssets = reducedMotion ? [] : [
+    fetch('/assets/audio/reactor-opening.mp3', { signal }).then(async (response) => {
+      if (!response.ok) throw new Error('Could not preload reactor sound')
+      await response.arrayBuffer()
+    }),
     loadBentoPlayer(),
     ...Object.values(bentoCompositions).map((load) => load()),
     ...Object.entries(pageVideos).map(async ([name, source]) => {

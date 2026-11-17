@@ -1,31 +1,16 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react'
+import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { IronManLoader } from '@/components/loader/IronManLoader'
-import { gsap, ScrollTrigger } from '@/lib/animations/gsap'
+import { gsap } from '@/lib/animations/gsap'
 import { preloadIntroAssets } from '@/lib/preloadIntroAssets'
 import { PageVideoContext, pageVideos, type PageVideoSources } from '@/lib/pageVideos'
+import { ReactorSoundContext } from '@/lib/reactorSound'
+import styles from './hero.module.css'
 import { HeroSection } from './HeroSection'
 
 const MAX_MEDIA_WAIT_MS = 2200
 const MAX_ASSET_WAIT_MS = 30_000
-
-const subscribeToNavigation = () => () => {}
-const getServerNavigation = () => null
-
-function isReloadNavigation() {
-  if (process.env.NODE_ENV === 'development') {
-    const params = new URLSearchParams(window.location.search)
-    if (['loader', 'controls', 'motion'].some((name) => params.has(name))) return false
-  }
-
-  const [navigation] = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[]
-  return navigation?.type === 'reload'
-}
-
-function scrollPositionKey() {
-  return `10x10:scroll:${window.location.pathname}${window.location.search}`
-}
 
 export function IntroExperience({ artwork, backHref, children, footer }: {
   artwork: ReactNode
@@ -36,15 +21,120 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
   const [reducedMotion, setLoaderComplete] = useState<boolean | null>(null)
   const [introComplete, setIntroComplete] = useState(false)
   const [preparedVideos, setPreparedVideos] = useState<PageVideoSources | null>(null)
-  const isReload = useSyncExternalStore(subscribeToNavigation, isReloadNavigation, getServerNavigation)
-  const revealed = introComplete || isReload === true
+  const revealed = introComplete
   const main = useRef<HTMLElement>(null)
   const overlay = useRef<HTMLDivElement>(null)
   const video = useRef<HTMLVideoElement>(null)
+  const preloaderAudio = useRef<HTMLAudioElement>(null)
+  const preloaderSoundStarted = useRef(false)
+  const muted = useRef(false)
+  const loaderFinished = useRef(false)
+  const soundRequest = useRef(0)
+  const activeCue = useRef<AudioBufferSourceNode | null>(null)
+  const soundButton = useRef<HTMLButtonElement>(null)
+
+  const audioContext = useRef<AudioContext | null>(null)
+  const soundBuffer = useRef<AudioBuffer | null>(null)
+  const [soundStatus, setSoundStatus] = useState<'off' | 'loading' | 'on' | 'error'>('off')
+
+  useEffect(() => () => {
+    void audioContext.current?.close().catch(() => {})
+  }, [])
 
   useEffect(() => {
-    if (isReload !== false) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    void preloaderAudio.current?.play().catch(() => {})
+  }, [])
 
+  async function decodeSound(context: AudioContext, source: string) {
+    const response = await fetch(source)
+    if (!response.ok) throw new Error('Could not load sound')
+    return context.decodeAudioData(await response.arrayBuffer())
+  }
+
+  function stopSound() {
+    preloaderAudio.current?.pause()
+    activeCue.current?.stop()
+    activeCue.current = null
+  }
+
+  function startCue(context: AudioContext, buffer: AudioBuffer) {
+    const cue = context.createBufferSource()
+    cue.buffer = buffer
+    cue.connect(context.destination)
+    activeCue.current = cue
+    cue.onended = () => {
+      cue.disconnect()
+      if (activeCue.current === cue) activeCue.current = null
+    }
+    cue.start()
+  }
+
+  async function enableSound() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    muted.current = false
+    const request = ++soundRequest.current
+    const introSound = preloaderAudio.current
+    const playIntro = !loaderFinished.current && introSound && !introSound.ended
+      ? introSound.play().then(() => true, () => false)
+      : Promise.resolve(true)
+
+    setSoundStatus('loading')
+    try {
+      const context = audioContext.current ?? new AudioContext()
+      audioContext.current = context
+      const resumed = context.resume()
+      const prepareReactor = decodeSound(context, '/assets/audio/reactor-opening.mp3')
+      const prepareIntro = playIntro.then(async (played) => {
+        if (played || loaderFinished.current || request !== soundRequest.current) return
+        const buffer = await decodeSound(context, '/assets/audio/preloader.mp3')
+        await resumed
+        if (!loaderFinished.current && request === soundRequest.current) startCue(context, buffer)
+      })
+      const [, reactor] = await Promise.all([resumed, prepareReactor, prepareIntro])
+      if (request !== soundRequest.current) return
+      soundBuffer.current = reactor
+      setSoundStatus('on')
+    } catch {
+      if (request === soundRequest.current) setSoundStatus('error')
+    }
+  }
+
+  function toggleSound() {
+    if (soundStatus === 'on' || soundStatus === 'loading') {
+      muted.current = true
+      soundRequest.current++
+      stopSound()
+      setSoundStatus('off')
+    } else {
+      void enableSound()
+    }
+  }
+
+  const enableSoundFromClick = useEffectEvent((event: MouseEvent) => {
+    if (soundStatus !== 'off' || muted.current || !event.isTrusted) return
+    if (event.target instanceof Node && soundButton.current?.contains(event.target)) return
+    void enableSound()
+  })
+
+  useEffect(() => {
+    const onClick = (event: MouseEvent) => enableSoundFromClick(event)
+    document.addEventListener('click', onClick, true)
+    return () => document.removeEventListener('click', onClick, true)
+  }, [])
+
+  function playReactorSound() {
+    if (muted.current) return
+    const context = audioContext.current
+    if (context?.state !== 'running' || !soundBuffer.current) {
+      if (preloaderSoundStarted.current) void preloaderAudio.current?.play().catch(() => {})
+      return
+    }
+    startCue(context, soundBuffer.current)
+  }
+
+  useEffect(() => {
     const controller = new AbortController()
     const sources: PageVideoSources = {}
     let active = true
@@ -67,37 +157,14 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
       controller.abort()
       Object.values(sources).forEach((source) => URL.revokeObjectURL(source))
     }
-  }, [isReload])
+  }, [])
 
   useLayoutEffect(() => {
-    if (!revealed) return
-
-    const key = scrollPositionKey()
-    function savePosition() {
-      try {
-        sessionStorage.setItem(key, String(window.scrollY))
-      } catch {
-        // Browser privacy settings can disable session storage.
-      }
-    }
-
-    if (isReload) {
-      let position: string | null = null
-      try {
-        position = sessionStorage.getItem(key)
-      } catch {
-        // Leave restoration to the browser when storage is unavailable.
-      }
-      if (position !== null && Number.isFinite(Number(position))) {
-        ScrollTrigger.refresh()
-        window.scrollTo({ top: Math.max(0, Number(position)), behavior: 'instant' })
-        ScrollTrigger.update()
-      }
-    }
-
-    window.addEventListener('pagehide', savePosition)
-    return () => window.removeEventListener('pagehide', savePosition)
-  }, [isReload, revealed])
+    const previous = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+    window.scrollTo({ top: 0, behavior: 'instant' })
+    return () => { window.history.scrollRestoration = previous }
+  }, [])
 
   useEffect(() => {
     if (reducedMotion === null || preparedVideos === null || revealed) return
@@ -121,6 +188,8 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
         duration: reducedMotion ? 0 : 0.42,
         ease: 'power1.out',
         onComplete: () => {
+          loaderFinished.current = true
+          stopSound()
           window.scrollTo(0, 0)
           setIntroComplete(true)
         },
@@ -155,14 +224,46 @@ export function IntroExperience({ artwork, backHref, children, footer }: {
             videoRef={video}
             revealed={revealed}
             backHref={backHref}
-            videoSource={preparedVideos?.hero ?? (isReload || preparedVideos ? pageVideos.hero : undefined)}
+            videoSource={preparedVideos?.hero ?? (preparedVideos ? pageVideos.hero : undefined)}
           />
-          {revealed && children}
+          {revealed && (
+            <ReactorSoundContext.Provider value={playReactorSound}>
+              {children}
+            </ReactorSoundContext.Provider>
+          )}
         </main>
         {revealed && footer}
       </PageVideoContext.Provider>
-      {isReload === null && <div className="fixed inset-0 z-[2] bg-[#030101]" aria-hidden="true" />}
-      {isReload === false && !revealed && (
+      <audio
+        ref={preloaderAudio}
+        src={revealed ? '/assets/audio/reactor-opening.mp3' : '/assets/audio/preloader.m4a'}
+        preload="auto"
+        onPlaying={() => {
+          if (revealed || muted.current) return
+          preloaderSoundStarted.current = true
+          setSoundStatus((status) => status === 'off' ? 'on' : status)
+        }}
+      />
+      <div className={styles.soundControl}>
+        <button
+          type="button"
+          ref={soundButton}
+          onClick={toggleSound}
+          aria-label="Sound"
+          aria-pressed={soundStatus === 'on' || soundStatus === 'loading'}
+        >
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+            {soundStatus === 'on' || soundStatus === 'loading' ? (
+              <path d="M15 9a4 4 0 0 1 0 6m3-9a8 8 0 0 1 0 12" />
+            ) : (
+              <path d="m16 10 4 4m0-4-4 4" />
+            )}
+          </svg>
+        </button>
+        {soundStatus === 'error' && <span role="status">Couldn’t enable sound. Try again.</span>}
+      </div>
+      {!revealed && (
         <div ref={overlay}>
           <IronManLoader onComplete={setLoaderComplete}>
             {artwork}

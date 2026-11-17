@@ -1,18 +1,21 @@
 'use client'
 
-import { useRef } from 'react'
+import { useContext, useRef } from 'react'
 import { gsap, useGSAP } from '@/lib/animations/gsap'
+import { ReactorSoundContext } from '@/lib/reactorSound'
 import { ArcReactor } from './ArcReactor'
 import styles from './about.module.css'
 
 export function WhoWeAre() {
   const root = useRef<HTMLElement>(null)
+  const playReactorSound = useContext(ReactorSoundContext)
 
   useGSAP(() => {
     const media = gsap.matchMedia()
     media.add('(prefers-reduced-motion: no-preference)', () => {
       const opening = gsap.timeline({
         defaults: { ease: 'power2.out' },
+        onStart: playReactorSound,
         scrollTrigger: { trigger: '[data-reactor-stage]', start: 'top 68%', once: true },
       })
 
@@ -25,6 +28,7 @@ export function WhoWeAre() {
         .from('[data-reactor-core]', { opacity: 0, duration: 0.42 }, 0.85)
         .fromTo('[data-reactor-glow]', { opacity: 0 }, { opacity: 1, duration: 0.34 }, 0.95)
         .to('[data-reactor-glow]', { opacity: 0.52, duration: 0.52, ease: 'sine.out' })
+
     })
 
     return () => media.revert()

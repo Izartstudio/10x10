@@ -91,11 +91,14 @@ function LoaderFrame() {
       <g stroke={DIM_RED} strokeWidth="4.8" fill="none">
         <path data-frame-path d="M59 107 458.5 156 525.5 254" />
         <path data-frame-path d="M1386 107 986.5 156 920 254" />
-        <path data-frame-path stroke="#8b0301" strokeWidth="4" d="M156 205H73L61 218 59 432H63V464H59V678L74 692H157" />
       </g>
       <g data-frame-fills fill={DIM_RED}>
         <path d="M192 123 398 149 383 161 205 139Z M1252 123 1047 149 1063 161 1239 139Z" />
-        <path d="M135 203H159L153 211H136Z M136 693H160L154 686H141Z" />
+      </g>
+      <g className={styles.leftHud}>
+        <path data-frame-path stroke="#8b0301" strokeWidth="4" fill="none" d="M156 205H73L61 218 59 432H63V464H59V678L74 692H157" />
+        <path data-frame-fills fill={DIM_RED} d="M135 203H159L153 211H136Z M136 693H160L154 686H141Z" />
+        <LoaderTerminal />
       </g>
     </>
   )
@@ -203,22 +206,31 @@ export function LoaderArtwork() {
               <LoaderGrid />
             </svg>
           </div>
-          <div className={styles.plane}>
+          <div className={`${styles.plane} ${styles.upperFrame}`}>
             <svg className={styles.artwork} viewBox="0 0 1440 832" focusable="false">
               <LoaderFrame />
-              <LoaderTerminal />
-              <text
-                data-message className={styles.message} fill="#f50502"
-                x="720" y="445" textAnchor="middle" textLength="386" lengthAdjust="spacingAndGlyphs"
-              >
-                {MESSAGE}
-              </text>
+            </svg>
+          </div>
+          <div className={styles.plane}>
+            <svg className={styles.artwork} viewBox="0 0 1440 832" focusable="false">
+              <g className={styles.caption}>
+                <text
+                  data-message className={styles.message} fill="#f50502"
+                  x="720" y="445" textAnchor="middle" textLength="386" lengthAdjust="spacingAndGlyphs"
+                >
+                  {MESSAGE}
+                </text>
+              </g>
+            </svg>
+          </div>
+          <div className={`${styles.plane} ${styles.lowerFrame}`}>
+            <svg className={styles.artwork} viewBox="0 0 1440 832" focusable="false">
               <LoaderRuler />
             </svg>
           </div>
           <div className={styles.plane} data-depth-scanner>
             <svg className={styles.artwork} viewBox="0 0 1440 832" focusable="false">
-              <LoaderScanner />
+              <g className={styles.scanner}><LoaderScanner /></g>
             </svg>
           </div>
           <div className={styles.plane} data-depth-brand>

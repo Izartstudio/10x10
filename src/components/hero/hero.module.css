@@ -145,3 +145,31 @@
 @media (max-width: 767px) {
   .backLink { font-size: calc(0.875 * var(--reference-font-unit)); }
 }
+
+.soundControl {
+  position: fixed;
+  z-index: 4;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .75rem;
+  color: #fff;
+  font-size: .875rem;
+}
+
+.soundControl button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: #f42f02;
+  cursor: pointer;
+}
+
+.soundControl button:disabled { cursor: default; }
+
+@media (prefers-reduced-motion: reduce) {
+  .soundControl { display: none; }
+}
