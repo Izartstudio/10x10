@@ -32,14 +32,14 @@
 .copy h2 {
   margin: 0;
   color: #ef0b00;
-  font-size: clamp(1.75rem, 2.78vw, 2.5rem);
+  font-size: var(--section-title-size);
   line-height: 1.2;
 }
 
 .copy p {
   max-width: 38rem;
   margin: 1rem auto 0;
-  font-size: clamp(.875rem, 1.25vw, 1.125rem);
+  font-size: var(--section-copy-size);
   line-height: 1.5;
 }
 
@@ -91,4 +91,10 @@
   }
   .ruler { height: 1.4rem; }
   .carousel, .frame { margin-top: var(--section-gap); }
+}
+
+@media (max-width: 767px) {
+  .section { padding: 3.75rem 1rem; }
+  .copy p { margin-top: 1.25rem; }
+  .carousel { margin-top: 2.5rem; }
 }

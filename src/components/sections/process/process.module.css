@@ -42,14 +42,16 @@
 .section[data-motion] .film:not([hidden]) { display: block; }
 
 .heading p {
-  font-size: clamp(.82rem, 1.39vw, 1.25rem);
+  font-family: "Plus Jakarta Sans";
+  font-weight: 600;
+  font-size: calc(1.25 * var(--reference-font-unit));
   text-transform: uppercase;
 }
 
 .heading h2 {
   margin-top: .9rem;
   color: #ef0b00;
-  font-size: clamp(2rem, 2.92vw, 2.625rem);
+  font-size: var(--section-title-size);
   line-height: 1.15;
 }
 
@@ -107,13 +109,14 @@
 }
 
 .stepCopy { padding: 1.75rem clamp(1.5rem, 3.125vw, 2.8125rem); }
-.number { color: #ff340e; font-size: .8125rem; }
+.number { font-family: "Plus Jakarta Sans"; font-weight: 700; color: #ff340e; font-size: calc(0.75 * var(--reference-font-unit)); }
 .stepCopy h3 {
+  font-weight: 700;
   margin: .45rem 0 .35rem;
-  font-size: 1.5rem;
+  font-size: calc(1.5 * var(--reference-font-unit));
   text-transform: uppercase;
 }
-.stepCopy p:last-child { font-size: .875rem; line-height: 1.5; }
+.stepCopy p:last-child { font-size: calc(0.875 * var(--reference-font-unit)); line-height: 1.5; }
 
 .section[data-motion] .track { height: 600lvh; }
 .section[data-motion] .stage {
@@ -167,6 +170,39 @@
   .section[data-motion] .steps { grid-template-columns: minmax(0, 22rem); }
 }
 
+@media (max-width: 991px) and (min-height: 501px) {
+  .section[data-motion] .stage {
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 0;
+    padding-block: 5.5rem clamp(2rem, 10svh, 5rem);
+  }
+
+  .section[data-motion] .steps {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(56%, 21.5rem);
+    margin-inline: var(--section-gutter);
+  }
+
+  .section[data-motion] .scenery {
+    place-self: center;
+    width: min(calc(100% - 2 * var(--section-gutter)), 48rem);
+    height: auto;
+    max-height: 100%;
+    aspect-ratio: 16 / 9;
+    background-size: contain;
+    mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 86%, transparent);
+  }
+
+  .section[data-motion] .film { object-fit: contain; }
+}
+
+@media (max-width: 767px) and (min-height: 501px) {
+  .section[data-motion] .steps {
+    width: auto;
+    margin-inline: var(--section-gutter);
+  }
+}
+
 @media (max-height: 500px) and (orientation: landscape) {
   .section[data-motion] .stage {
     grid-template-columns: minmax(12rem, 32%) minmax(0, 1fr);
@@ -176,4 +212,20 @@
   }
   .section[data-motion] .steps { margin-inline: 0; }
   .section[data-motion] .stepCopy { padding-block: 1rem; }
+}
+
+
+@media (max-width: 767px) {
+  .section[data-motion] .step { min-height: 8rem; }
+}
+
+@media (max-width: 767px) {
+  .intro { padding: 4.6875rem 1.25rem 0; }
+  .heading h2 { margin-top: 1.25rem; }
+  .section { padding-bottom: 2.5rem; }
+}
+
+@media (max-width: 767px) {
+  .heading p { font-size: calc(0.875 * var(--reference-font-unit)); }
+  .step:nth-child(n + 3) h3 { font-size: calc(1.25 * var(--reference-font-unit)); }
 }

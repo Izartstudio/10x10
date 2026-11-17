@@ -58,8 +58,8 @@ export function HeroSection({ videoRef, revealed, backHref, videoSource }: {
       </div>
 
       <h1 className={styles.heading}>
-        <span>Exhibition Experiences</span>{' '}
-        <span>Designed To Perform</span>
+        <span>Exhibition<br /> Experiences</span>{' '}
+        <span>Designed To<br /> Perform</span>
       </h1>
 
       {needsPlay && (

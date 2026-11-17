@@ -24,7 +24,7 @@
 
 .content h2 {
   margin: 0 0 clamp(1.2rem, 2.5vw, 2.25rem);
-  font-size: clamp(1.8rem, 2.78vw, 2.6rem);
+  font-size: var(--section-title-size);
   line-height: 1.2;
 }
 
@@ -66,20 +66,22 @@
 .quote {
   margin: 0;
   color: #e3dada;
-  font-size: clamp(1rem, 1.39vw, 1.25rem);
+  font-size: calc(1.25 * var(--reference-font-unit));
   line-height: 1.6;
 }
 
 .attribution {
   display: grid;
   gap: .7rem;
-  font-size: clamp(1.05rem, 1.53vw, 1.4rem);
+  font-size: calc(1.25 * var(--reference-font-unit));
   font-weight: 600;
 }
 
 .attribution span:last-child {
+  font-family: "Basis Grotesque Arabic Pro";
+  font-weight: 400;
   color: #ff2c1d;
-  font-size: .875rem;
+  font-size: calc(0.875 * var(--reference-font-unit));
   text-transform: uppercase;
 }
 
@@ -127,4 +129,17 @@
   .panel { min-height: clamp(16rem, 36vw, 21rem); }
   .content h2 { margin-bottom: var(--section-gap); }
   .controls { margin-top: var(--section-gap); }
+}
+
+@media (max-width: 767px) {
+  .content { padding: 3rem 1.25rem 2rem; }
+  .content h2 { margin-bottom: 2.1875rem; }
+  .panel { padding: 2.5625rem 2.1875rem; }
+  .controls { gap: .9375rem; margin-top: 2.1875rem; }
+}
+
+@media (max-width: 767px) {
+  .quote { font-size: calc(0.875 * var(--reference-font-unit)); }
+  .attribution { font-size: var(--reference-font-unit); }
+  .attribution span:last-child { font-size: calc(0.75 * var(--reference-font-unit)); }
 }

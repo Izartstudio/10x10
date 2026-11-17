@@ -16,6 +16,7 @@ const STEPS = [
 const FRAME_COUNT = 241
 const FRAMES_PER_STEP = 60
 const FPS = 30
+const SEEK_TIMEOUT_MS = 1500
 
 export function HowWeWork() {
   const videoSource = usePageVideo('process')
@@ -37,6 +38,9 @@ export function HowWeWork() {
       let requestedFrame = -1
       let activeStep = 0
       let frameCallback: number | undefined
+      let seekTimeout: number | undefined
+      let nextSeek: number | undefined
+      let retriedSeek = false
       section.dataset.step = '0'
 
       function syncCard(mediaTime: number) {
@@ -54,11 +58,26 @@ export function HowWeWork() {
         if (desiredFrame === requestedFrame) return
         requestedFrame = desiredFrame
         film.currentTime = (desiredFrame + 0.25) / FPS
+        window.clearTimeout(seekTimeout)
+        if (!retriedSeek) seekTimeout = window.setTimeout(() => {
+          if (!film.seeking) return
+          retriedSeek = true
+          requestedFrame = -1
+          film.load()
+        }, SEEK_TIMEOUT_MS)
+      }
+
+      function queueSeek() {
+        if (nextSeek !== undefined) return
+        nextSeek = requestAnimationFrame(() => {
+          nextSeek = undefined
+          renderFrame()
+        })
       }
 
       function update() {
         desiredFrame = Math.round(playhead.frame)
-        renderFrame()
+        queueSeek()
       }
 
       const supportsFrameCallback = typeof film.requestVideoFrameCallback === 'function'
@@ -70,15 +89,17 @@ export function HowWeWork() {
 
       function onSeeked() {
         if (!film) return
+        window.clearTimeout(seekTimeout)
+        retriedSeek = false
         if (!supportsFrameCallback) syncCard(film.currentTime)
-        renderFrame()
+        queueSeek()
       }
 
       if (supportsFrameCallback) frameCallback = film.requestVideoFrameCallback(onPresentedFrame)
 
       // A paused video has one seek in flight. Apply the latest target when it finishes.
-      film.addEventListener('loadedmetadata', renderFrame)
-      film.addEventListener('loadeddata', renderFrame)
+      film.addEventListener('loadedmetadata', queueSeek)
+      film.addEventListener('loadeddata', queueSeek)
       film.addEventListener('seeked', onSeeked)
       const preload = new IntersectionObserver(([entry]) => {
         if (!entry.isIntersecting) return
@@ -106,9 +127,11 @@ export function HowWeWork() {
 
       return () => {
         preload.disconnect()
-        film.removeEventListener('loadedmetadata', renderFrame)
-        film.removeEventListener('loadeddata', renderFrame)
+        film.removeEventListener('loadedmetadata', queueSeek)
+        film.removeEventListener('loadeddata', queueSeek)
         film.removeEventListener('seeked', onSeeked)
+        window.clearTimeout(seekTimeout)
+        if (nextSeek !== undefined) cancelAnimationFrame(nextSeek)
         if (frameCallback !== undefined) film.cancelVideoFrameCallback(frameCallback)
         film.preload = 'none'
         delete section.dataset.motion
@@ -158,7 +181,7 @@ export function HowWeWork() {
               className={styles.film}
               src={videoSource}
               poster="/assets/videos/booth-assembly-poster.jpg"
-              preload="none"
+              preload={videoSource.startsWith('blob:') ? 'auto' : 'none'}
               muted
               playsInline
               onError={(event) => { event.currentTarget.hidden = true }}

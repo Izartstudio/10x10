@@ -2,10 +2,34 @@
 
 @font-face {
   font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
   src: url("/assets/fonts/plus-jakarta-sans-medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
-  font-display: block;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -13,7 +37,15 @@
   src: url("/assets/fonts/BasisGrotesqueArabicPro-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: block;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Basis Grotesque Arabic Pro";
+  src: url("/assets/fonts/BasisGrotesqueArabicPro-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -33,7 +65,8 @@
 }
 
 @layer base {
-  body { font-family: "Basis Grotesque Arabic Pro"; }
+  body { font-family: "Plus Jakarta Sans"; }
+  p, blockquote { font-family: "Basis Grotesque Arabic Pro"; }
   h1, h2, h3, h4, h5, h6 {
     font-family: "Plus Jakarta Sans";
     font-weight: 500;
@@ -43,6 +76,36 @@
 :root {
   --company-entry-red: #5d0402;
   --footer-entry-color: #020202;
+  --reference-font-unit: calc(.583125rem + (100vw - 240px) * .04359477124);
+  --section-title-size: calc(2.5 * var(--reference-font-unit));
+  --section-copy-size: calc(1.125 * var(--reference-font-unit));
+  --section-lead-size: calc(1.5 * var(--reference-font-unit));
+}
+
+@media (max-width: 767px) {
+  :root {
+    --section-title-size: calc(1.5 * var(--reference-font-unit));
+    --section-copy-size: calc(.875 * var(--reference-font-unit));
+    --section-lead-size: var(--reference-font-unit);
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --reference-font-unit: calc(.75rem + (100vw - 768px) * .01793721973);
+    --section-lead-size: calc(1.25 * var(--reference-font-unit));
+  }
+}
+
+@media (min-width: 992px) {
+  :root {
+    --reference-font-unit: calc(.683125rem + (100vw - 992px) * .01131696429);
+    --section-lead-size: calc(1.5 * var(--reference-font-unit));
+  }
+}
+
+@media (min-width: 1440px) {
+  :root { --reference-font-unit: min(1.958125rem, calc(.875rem + (100vw - 1440px) * .01110897436)); }
 }
 
 html:has([data-loader-overlay]) {

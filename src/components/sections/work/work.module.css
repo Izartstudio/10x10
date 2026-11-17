@@ -27,13 +27,13 @@
 
 .copy h2 {
   color: #ef0a00;
-  font-size: clamp(32px, 3vw, 42px);
+  font-size: var(--section-title-size);
   line-height: 1.2;
 }
 
 .copy p {
   margin-top: 11px;
-  font-size: clamp(15px, 1.25vw, 18px);
+  font-size: var(--section-copy-size);
 }
 
 .carousel {
@@ -111,4 +111,16 @@
   .group { flex-wrap: wrap; justify-content: center; padding-inline-end: 0; }
   .group + .group { display: none; }
   .card { max-width: 100%; }
+}
+
+@media (max-width: 767px) {
+  .section { padding-block: 1.25rem 0; }
+  .diagnostics { margin: 0 1.25rem 1.5rem; }
+  .copy p { margin-top: 1.25rem; }
+  .carousel { --gutter: 1.25rem; margin-top: 2.5rem; }
+}
+
+@media (max-width: 479px) {
+  .carousel { margin-top: 2rem; }
+  .frame { top: -.875rem; }
 }

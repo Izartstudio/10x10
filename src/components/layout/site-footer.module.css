@@ -23,14 +23,14 @@
 }
 
 .copy h2 {
-  font-size: clamp(28px, 2.92vw, 42px);
+  font-size: var(--section-title-size);
   line-height: 1.25;
   transition: text-shadow 360ms ease-out;
 }
 
 .copy p {
   margin-top: 24px;
-  font-size: clamp(15px, 1.25vw, 18px);
+  font-size: var(--section-copy-size);
   line-height: 1.5;
 }
 
@@ -102,4 +102,9 @@
   .copy { padding-top: var(--section-edge); }
   .copy p { margin-top: var(--section-gap); }
   .artwork { margin-top: var(--section-gap); }
+}
+
+@media (max-width: 767px) {
+  .copy { padding-top: 3.75rem; }
+  .copy p { margin-top: 1.25rem; }
 }

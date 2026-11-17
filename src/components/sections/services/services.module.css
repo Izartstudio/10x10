@@ -12,19 +12,22 @@
 .intro h2 {
   margin: 0 0 1.25rem;
   color: var(--accent);
-  font-size: clamp(1.65rem, 2.85vw, 2.5rem);
+  font-size: var(--section-title-size);
   line-height: 1.18;
 }
 
 .introLead {
+  font-weight: 500;
   margin-bottom: 1.25rem;
-  font-size: clamp(1rem, 1.65vw, 1.5rem);
+  font-size: var(--section-lead-size);
 }
 
 .introCopy {
+  font-family: "Plus Jakarta Sans";
+  font-weight: 600;
   max-width: 42rem;
   margin-bottom: 1.5rem;
-  font-size: clamp(.875rem, 1.2vw, 1rem);
+  font-size: var(--section-copy-size);
   line-height: 1.6;
 }
 
@@ -78,22 +81,24 @@
 }
 
 .copy h3 {
+  font-weight: 600;
   margin: 0 0 clamp(.9rem, 2vw, 1.7rem);
   color: var(--accent);
-  font-size: clamp(1.3rem, 2.3vw, 2.125rem);
+  font-size: calc(2 * var(--reference-font-unit));
   line-height: 1.18;
 }
 
 .lead {
+  font-weight: 500;
   margin: 0 0 .9rem;
-  font-size: clamp(1rem, 1.67vw, 1.5rem);
+  font-size: var(--section-lead-size);
   line-height: 1.25;
 }
 
 .description {
   max-width: 38rem;
   margin: 0;
-  font-size: clamp(.8rem, .97vw, .875rem);
+  font-size: var(--section-copy-size);
   line-height: 1.55;
 }
 
@@ -102,6 +107,16 @@
   display: grid;
   place-items: center;
   padding: clamp(.75rem, 3vw, 3rem) 6%;
+}
+
+.picture { display: contents; }
+.callouts {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .booth {
@@ -177,17 +192,17 @@
 
   .copy h3 {
     margin-bottom: calc(28 * var(--design-pixel));
-    font-size: calc(32 * var(--design-pixel));
+    font-size: calc(2 * var(--reference-font-unit));
   }
 
   .lead {
     margin-bottom: calc(15 * var(--design-pixel));
-    font-size: calc(23 * var(--design-pixel));
+    font-size: var(--section-lead-size);
   }
 
   .description {
     max-width: calc(530 * var(--design-pixel));
-    font-size: calc(13 * var(--design-pixel));
+    font-size: var(--section-copy-size);
   }
 
   .visual {
@@ -214,4 +229,47 @@
 @media (max-width: 1024px) {
   .intro { padding: var(--section-edge) var(--section-gutter) var(--section-gap); }
   .introCopy { margin-bottom: 0; }
+}
+
+@media (max-width: 991px) {
+  .visual {
+    gap: 1rem;
+    padding-inline: clamp(1rem, 3.47vw, 3.125rem);
+  }
+  .callouts {
+    position: static;
+    width: auto;
+    height: auto;
+    clip-path: none;
+    white-space: normal;
+    display: flex;
+    flex-wrap: wrap;
+    justify-self: stretch;
+    justify-content: flex-start;
+    gap: .5rem;
+    font-size: calc(0.625 * var(--reference-font-unit));
+    font-weight: 500;
+  }
+  .callouts li { padding: .375rem .625rem; border: 1px solid #f42f025c; background: #210705; }
+}
+
+
+@media (max-width: 767px) {
+  .callouts {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 767px) {
+  .introLead, .lead { font-weight: 400; }
+  .intro { padding: 2.5rem 1.25rem 3.0625rem; }
+  .panel { padding-inline: 1.25rem; }
+
+  .copy, .visual { padding-inline: .9375rem; }
+}
+
+@media (max-width: 767px) {
+  .copy h3 { font-size: calc(1.25 * var(--reference-font-unit)); }
+  .introCopy { font-size: calc(0.875 * var(--reference-font-unit)); }
 }

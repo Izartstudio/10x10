@@ -28,7 +28,7 @@
   position: relative;
   margin: 0;
   color: var(--markets-red);
-  font-size: clamp(1.85rem, 2.92vw, 2.85rem);
+  font-size: var(--section-title-size);
   line-height: 1.2;
 }
 
@@ -36,7 +36,7 @@
   margin: clamp(1rem, 1.75vw, 1.6rem) auto 0;
   max-width: 62rem;
   padding-inline: 1rem;
-  font-size: clamp(.875rem, 1.11vw, 1rem);
+  font-size: var(--section-copy-size);
   line-height: 1.5;
 }
 
@@ -57,16 +57,32 @@
 
 .globe video[hidden] { display: none; }
 
-@media (max-width: 767px) {
-  .frame { height: 2.5rem; }
-  .header p br { display: none; }
-}
-
 @media (max-width: 1024px) {
   .section { padding-block: var(--section-edge); }
   .layout { width: calc(100% - 2 * var(--section-gutter)); }
-  .header { padding-top: var(--section-gap); }
+  .header { padding-top: calc(2.5rem + var(--section-gap)); }
   .frame { height: 2.5rem; }
   .header p { padding-inline: 0; }
   .globe { margin-top: var(--section-gap); }
+}
+
+@media (max-width: 767px) {
+  .section { padding-block: 3.75rem; }
+  .layout { width: calc(100% - 2.5rem); }
+  .header { padding-top: 0; }
+  .frame { top: -2.75rem; }
+  .header p { margin-top: 1.25rem; }
+
+  .globe {
+    margin-top: 0;
+    height: 20rem;
+    aspect-ratio: auto;
+    background-size: auto 100%;
+  }
+
+  .globe video {
+    width: min(100%, 35.5556rem);
+    margin-inline: auto;
+    object-fit: cover;
+  }
 }

@@ -8,7 +8,6 @@ const IMAGES = [
   '/assets/svg/10x10-booths-wordmark.svg',
   '/assets/svg/10x10-cube.svg',
   '/assets/images/services/background.webp',
-  ...services.map(({ image }) => `/assets/images/services/${image}.webp`),
   '/assets/videos/booth-assembly-poster.jpg',
   '/assets/videos/markets-globe-poster.jpg',
   '/assets/images/arc-reactor-core.webp',
@@ -22,11 +21,24 @@ const IMAGES = [
   ...Array.from({ length: 12 }, (_, index) => `/assets/images/work/booth-${index + 1}.avif`),
 ]
 
-const FONTS = ['400 16px "Basis Grotesque Arabic Pro"', '500 16px "Plus Jakarta Sans"', '400 16px "Bai Jamjuree"', '600 16px "Bai Jamjuree"']
+const FONTS = [
+  '400 16px "Plus Jakarta Sans"',
+  '500 16px "Plus Jakarta Sans"',
+  '600 16px "Plus Jakarta Sans"',
+  '700 16px "Plus Jakarta Sans"',
+  '400 16px "Basis Grotesque Arabic Pro"',
+  '500 16px "Basis Grotesque Arabic Pro"',
+  '400 16px "Bai Jamjuree"',
+  '600 16px "Bai Jamjuree"',
+]
 
 export async function preloadIntroAssets(signal: AbortSignal, videoSources: PageVideoSources) {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  const images = IMAGES.map(async (source) => {
+  const compact = window.matchMedia('(max-width: 991px)').matches
+  const serviceImages = services.map(({ image }) =>
+    `/assets/images/services/${image}${compact ? '-mobile' : ''}.webp`,
+  )
+  const images = [...IMAGES, ...serviceImages].map(async (source) => {
     const image = new Image()
     image.src = source
     await image.decode()

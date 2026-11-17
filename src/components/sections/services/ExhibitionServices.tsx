@@ -102,17 +102,20 @@ export function ExhibitionServices() {
                       <p className={styles.description}>{service.description}</p>
                     </div>
                     <div className={styles.visual}>
-                      <Image
-                        className={styles.booth}
-                        src={`/assets/images/services/${service.image}.webp`}
-                        width={service.imageWidth}
-                        height={527}
-                        alt={`${service.title} exhibition stand`}
-                        unoptimized
-                      />
-                      <ul className="sr-only">
+                      <ul className={styles.callouts}>
                         {service.callouts.map((label) => <li key={label}>{label}</li>)}
                       </ul>
+                      <picture className={styles.picture}>
+                        <source media="(max-width: 991px)" srcSet={`/assets/images/services/${service.image}-mobile.webp`} width={1031} height={527} />
+                        <Image
+                          className={styles.booth}
+                          src={`/assets/images/services/${service.image}.webp`}
+                          width={service.imageWidth}
+                          height={527}
+                          alt={`${service.title} exhibition stand`}
+                          unoptimized
+                        />
+                      </picture>
                     </div>
                   </div>
                 </div>
