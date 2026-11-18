@@ -16,9 +16,11 @@
 .stage {
   --stage-gap: clamp(1rem, 3svh, 2rem);
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
   align-content: start;
   gap: var(--stage-gap);
-  overflow: clip;
+  overflow: hidden;
   padding-top: var(--stage-gap);
   background: linear-gradient(to bottom, #220403, #080606 72%);
 }
@@ -149,12 +151,7 @@
 .section[data-step="2"] [data-step-card="2"],
 .section[data-step="3"] [data-step-card="3"] {
   visibility: visible;
-  animation: show-step 180ms ease-out both;
-}
 
-@keyframes show-step {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 1024px) {
@@ -190,7 +187,7 @@
     max-height: 100%;
     aspect-ratio: 16 / 9;
     background-size: contain;
-    mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 86%, transparent);
+    mask-image: none;
   }
 
   .section[data-motion] .film { object-fit: contain; }
@@ -198,7 +195,7 @@
 
 @media (max-width: 767px) and (min-height: 501px) {
   .section[data-motion] .steps {
-    width: auto;
+    width: calc(100% - 2 * var(--section-gutter));
     margin-inline: var(--section-gutter);
   }
 }
@@ -228,4 +225,30 @@
 @media (max-width: 767px) {
   .heading p { font-size: calc(0.875 * var(--reference-font-unit)); }
   .step:nth-child(n + 3) h3 { font-size: calc(1.25 * var(--reference-font-unit)); }
+}
+
+@media (max-width: 991px) and (min-height: 501px) {
+  .section, .track, .steps, .step, .stepCopy { min-width: 0; }
+  .stepCopy { overflow-wrap: anywhere; }
+
+  .section[data-motion] .scenery {
+    height: min(42svh, calc((100vw - 2 * var(--section-gutter) - 2 * .9375rem) * .5625));
+    min-width: 0;
+    max-width: 100%;
+    aspect-ratio: auto;
+    background-position: center;
+  }
+
+  .section[data-motion] .film {
+    position: absolute;
+    inset: 0;
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
+@media (max-width: 767px) and (min-height: 501px) {
+  .section[data-motion] .scenery {
+    height: min(42svh, calc((100vw - 2 * var(--section-gutter) - 2 * .3125rem) * .5625));
+  }
 }

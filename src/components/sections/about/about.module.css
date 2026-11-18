@@ -55,7 +55,7 @@
   font-weight: 500;
   max-width: 61.25rem;
   margin-top: clamp(1.5rem, 2.8vw, 2.5rem);
-  font-size: var(--section-lead-size);
+  font-size: 1.125rem;
   line-height: 1.5;
 }
 

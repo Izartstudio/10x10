@@ -119,7 +119,8 @@ export function HowWeWork() {
         trigger: scrollTrack,
         animation,
         start: 'top top',
-        end: 'bottom bottom',
+        end: () => `+=${Math.max(1, scrollTrack.offsetHeight - (scrollTrack.firstElementChild as HTMLElement).offsetHeight)}`,
+        invalidateOnRefresh: true,
         scrub: 0.15,
         onRefresh: update,
       })
